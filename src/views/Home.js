@@ -15,9 +15,9 @@ export default class Home extends Component {
                             <h5>Small Business Owners <i className="fal fa-check"></i></h5>
                             <h5>Entrepreneurs <i className="fal fa-check"></i></h5>
                         </div>
-                        <button type="button" className="btn btn-primary btn-squared mt-3 mx-1">Sign Up <i className="fal fa-chevron-double-right"></i></button>
+                        <Link to='/register'><button type="button" className="btn btn-primary btn-squared mt-3 mx-1">Sign Up <i className="fal fa-chevron-double-right"></i></button></Link>
                         <button type="button" className="btn btn-outline-dark btn-squared mt-3 mx-1">See Features <i className="fal fa-angle-right"></i></button>
-                        <p className='my-2 sign-in'>Already using R++? <Link to='/'>Sign In</Link></p>
+                        <p className='my-2 sign-in'>Already using R++? <Link to='/login'>Sign In</Link></p>
                     </div>
                     <div className='col-12 col-md-6'>
                         <img src="../Logo/logo.png" className="banner-img mt-5 ml-5" alt="r++ logo" />
@@ -83,7 +83,7 @@ export default class Home extends Component {
                                     - Track your interactions and meetings<br />
                                     - Analyze trends<br />
                                     - Increase your revenue</p>
-                                    <a href="/" className="btn btn-primary">Sign Up Now</a>
+                                    <Link to='/register' className="btn btn-primary">Sign Up Now</Link>
                                 </div>
                                 <div className='col-12 col-md-6'>
                                     <img src="../Logo/logowhite.png" alt="..." className='card-logo' />
