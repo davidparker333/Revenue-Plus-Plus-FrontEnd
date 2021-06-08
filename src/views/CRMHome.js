@@ -54,7 +54,7 @@ export default class CRMHome extends Component {
                         </div>
                     </div>
                 </Row>
-                <Row className='mt-5'>
+                <Row className='lg-mt-5'>
                     <div className='col-12 col-md-12 col-lg-4'>
                         <div className="card mb-2">
                             {/* <img className="card-img-top" src="..." alt="..." /> */}
@@ -86,8 +86,7 @@ export default class CRMHome extends Component {
                                 <table className="table">
                                     <thead className="thead">
                                         <tr>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
+                                        <th scope="col">Name</th>
                                         <th scope="col">Company</th>
                                         <th scope="col">Value</th>
                                         <th scope="col">Status</th>
