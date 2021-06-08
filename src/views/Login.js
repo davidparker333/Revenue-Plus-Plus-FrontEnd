@@ -15,7 +15,7 @@ export default class Login extends Component {
         e.preventDefault();
         this.props.handleLogin(e)
         this.setState({
-            redirect: '/'
+            redirect: '/home'
         })
     }
 
@@ -30,7 +30,7 @@ export default class Login extends Component {
                         <img src="https://res.cloudinary.com/dbqwjxuhv/image/upload/v1623086023/Login-Logo_fj5l58.png" alt="..." className='login-logo mt-5' />
                     </div>
                 </Row>
-                <Row className="d-flex flex-row justify-content-center mt-2">
+                <Row className="d-flex flex-row justify-content-center mt-2 mb-4">
                     <div className='col-12 col-sm-6 col-md-4 d-flex justify-content-center flex-column'>
                     <form onSubmit={(e) => this.loginHelper(e)} action="" method="">
                         <div className="form-group">

@@ -13,13 +13,29 @@ export default class NavbarLoggedIn extends Component {
           <div className="collapse navbar-collapse mr-auto" id="navbarNavDropdown-6">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-                <Link className="nav-link" to="/">Home
+                <Link className="nav-link" to="/home">Home
                   <span className="sr-only">(current)</span>
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/">Features</Link>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/home">Leads
+                </Link>
               </li>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/home">Opportunities
+                </Link>
+              </li>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/home">Events
+                </Link>
+              </li>
+              <li className="nav-item active">
+                <Link className="nav-link" to="/home">Reports
+                </Link>
+              </li>
+              {/* <li className="nav-item">
+                <Link className="nav-link" to="/">Features</Link>
+              </li> */}
               {/* <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink-6" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">

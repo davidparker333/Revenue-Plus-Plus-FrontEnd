@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router';
 import Message from './components/Message'
 import Navbar from './components/Navbar'
 import NavbarLoggedIn from './components/NavbarLoggedIn';
+import CRMHome from './views/CRMHome';
 import Home from './views/Home';
 import Login from './views/Login';
 import Register from './views/Register';
@@ -57,6 +58,7 @@ export default class App extends Component {
           <Route exact path="/" render={() => <Home />} />
           <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
+          <Route exact path='/home' render={() => <CRMHome />} />
         </Switch>
         </Container>
       </div>

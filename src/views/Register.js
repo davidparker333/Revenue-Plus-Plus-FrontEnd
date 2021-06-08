@@ -63,7 +63,7 @@ export default class Register extends Component {
                         <img src="https://res.cloudinary.com/dbqwjxuhv/image/upload/v1623086022/Register-Logo_met5jl.png" alt="..." className='login-logo mt-5' />
                     </div>
                 </Row>
-                <Row className="d-flex flex-row justify-content-center mt-2">
+                <Row className="d-flex flex-row justify-content-center mt-2 mb-4">
                     <div className='col-12 col-sm-6 col-md-4 d-flex justify-content-center flex-column'>
                     <form onSubmit={(e) => this.handleRegister(e)} action="" method="">
                         <div className="form-group">
