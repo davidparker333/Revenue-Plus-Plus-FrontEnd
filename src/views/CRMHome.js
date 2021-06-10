@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import ClosedOpportunity from '../components/ClosedOpportunity'
 import ClosedOpportunityFooter from '../components/ClosedOpportunityFooter'
 import Event from '../components/Event'
@@ -10,7 +11,7 @@ export default class CRMHome extends Component {
     render() {
         return (
             <div>
-                <Row className='mt-5'>
+                <Row className='mt-4'>
                     <div className='col-12 col-md-12 col-lg-8'>
                         <div className="card mb-2">
                             {/* <img className="card-img-top" src="..." alt="..." /> */}
@@ -29,7 +30,7 @@ export default class CRMHome extends Component {
                                         <Lead />
                                     </tbody>
                                 </table>
-                                <a href="/" className="btn btn-primary">Go to Leads</a>
+                                <Link to="/leads" className="btn btn-primary">Go to Leads</Link>
                             </div>
                         </div>
                     </div>
@@ -49,7 +50,7 @@ export default class CRMHome extends Component {
                                         <Event />
                                     </tbody>
                                 </table>
-                                <a href="/" className="btn btn-primary">Go to Events</a>
+                                <Link to="/events" className="btn btn-primary">Go to Events</Link>
                             </div>
                         </div>
                     </div>
@@ -74,7 +75,7 @@ export default class CRMHome extends Component {
                                         <ClosedOpportunityFooter />
                                     </tfoot>
                                 </table>
-                                <a href="/" className="btn btn-primary">Go to Opportunities</a>
+                                <Link to="/reports" className="btn btn-primary">Go to Reports</Link>
                             </div>
                         </div>
                     </div>
@@ -96,7 +97,7 @@ export default class CRMHome extends Component {
                                         <Opportunity />
                                     </tbody>
                                 </table>
-                                <a href="/" className="btn btn-primary">Go to Opportunities</a>
+                                <Link to="/opportunities" className="btn btn-primary">Go to Opportunities</Link>
                             </div>
                         </div>
                     </div>
