@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import Activity from '../components/Activity'
 
-export default class LeadDetail extends Component {
+export default class OpportunityDetail extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            progress: {"width": "50%"}
+        }
+    }
 
     edit = (e) => {
         e.preventDefault();
@@ -21,8 +28,26 @@ export default class LeadDetail extends Component {
         document.getElementById('contact-info-group').disabled = true;
         document.getElementById('lead-info-group').disabled = true;
         document.getElementById('save-button-space').innerHTML = "";
+        let status = document.getElementById('statusSelect');
+        status = status.options[status.selectedIndex].text;
+        if (status === 'Meeting Scheduled') {
+            this.setState({
+                progress: {"width": "25%"}
+            })
+        } else if (status === 'Meeting Held') {
+            this.setState({
+                progress: {"width": "50%"}
+            })
+        } else if (status === 'Negotiating') {
+            this.setState({
+                progress: {"width": "75%"}
+            })
+        } else if (status === 'Closed Won' || status === 'Closed Lost') {
+            this.setState({
+                progress: {"width": "100%"}
+            })
+        }
     }
-
 
     render() {
         return (
@@ -39,11 +64,12 @@ export default class LeadDetail extends Component {
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div className="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Lead Options
+                                    Opportunity
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
-                                    <a className="dropdown-item" href="/">Convert to Opportunity</a>
+                                    <button className="dropdown-item" href="/" onClick={(e) => this.edit(e)}>Edit</button>
+                                    <a className="dropdown-item" href="/">Meeting Held</a>
+                                    <a className="dropdown-item" href="/">Create Event</a>
                                     <a className="dropdown-item" href="/">Delete</a>
                                 </div>
                             </div>
@@ -53,6 +79,31 @@ export default class LeadDetail extends Component {
                     </div>
                 </div>
                 </Row>
+                <Row className='mt-2'>
+                    <div className='col-12'>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="progress">
+                                    <div className="progress-bar" role="progressbar" style={this.state.progress} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <Row className='d-flex flex-row justify-content-center mt-1'>
+                                    <div className='col-3 d-flex flex-column justify-content-center'>
+                                    <h6 className='text-center d-none d-lg-block'>Meeting Scheduled</h6>
+                                    </div>
+                                    <div className='col-3 d-flex flex-column justify-content-center'>
+                                    <h6 className='text-center d-none d-lg-block'>Meeting Held</h6>
+                                    </div>
+                                    <div className='col-3 d-flex flex-column justify-content-center'>
+                                    <h6 className='text-center d-none d-lg-block'>Negotiating</h6>
+                                    </div>
+                                    <div className='col-3 d-flex flex-column justify-content-center'>
+                                    <h6 className='text-center d-none d-lg-block'>Closed</h6>
+                                    </div>
+                                </Row>
+                            </div>
+                        </div>
+                    </div>
+                </Row>
                 <Row className='mt-4'>
                     <div className='col-12 col-md-6 mb-2'>
                     <div class="card">
@@ -61,20 +112,20 @@ export default class LeadDetail extends Component {
                         <form>
                             <fieldset id='contact-info-group' disabled>
                             <div class="form-group">
-                                <label for="disabledTextInput">First Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="Mark" />
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" class="form-control" defaultValue="Mark" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Last Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="Otto" />
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" class="form-control" defaultValue="Otto" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="(207)957-8375" />
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="text" id="phoneNumber" class="form-control" defaultValue="(207)957-8375" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Cell Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="(207)837-8364" />
+                                <label for="cellPhoneNumber">Cell Phone Number</label>
+                                <input type="text" id="cellPhoneNumber" class="form-control" defaultValue="(207)837-8364" />
                             </div>
                             </fieldset>
                         </form>
@@ -84,34 +135,31 @@ export default class LeadDetail extends Component {
                     <div className='col-12 col-md-6 mb-2'>
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Lead Info</h5>
+                        <h5 class="card-title">Opportunity Info</h5>
                         <form>
                             <fieldset id='lead-info-group' disabled>
                             <div class="form-group">
-                                <label for="disabledTextInput">Business Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="The Saco Deli & Co" />
+                                <label for="businessName">Business Name</label>
+                                <input type="text" id="businessName" class="form-control" defaultValue="The Saco Deli & Co" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Address</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="57 Main St Saco, ME 04072" />
+                                <label for="address">Address</label>
+                                <input type="text" id="address" class="form-control" defaultValue="57 Main St Saco, ME 04072" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledSelect">Status</label>
-                                <select id="disabledSelect" class="form-control">
-                                    <option hidden>DM Reached</option>
-                                    <option>Pending</option>
-                                    <option>Contact Attempted</option>
-                                    <option>GK Reached</option>
-                                    <option>DM Reached</option>
-                                    <option>Meeting Pending</option>
+                                <label for="statusSelect">Status</label>
+                                <select id="statusSelect" class="form-control">
+                                    <option hidden>Meeting Held</option>
+                                    <option>Meeting Scheduled</option>
+                                    <option>Meeting Held</option>
+                                    <option>Negotiating</option>
+                                    <option>Closed Won</option>
                                     <option>Closed Lost</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                    <label class="custom-control-label" for="customCheck1">Hot Lead</label>
-                                </div>
+                                <label for="value">Value</label>
+                                <input type="text" id="value" class="form-control" defaultValue="$450" />
                             </div>
                             </fieldset>
                         </form>
@@ -146,7 +194,6 @@ export default class LeadDetail extends Component {
                     </div>
                     </div>
                 </Row>
-
             </div>
         )
     }

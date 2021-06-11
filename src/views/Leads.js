@@ -3,6 +3,11 @@ import { Row } from 'react-bootstrap'
 import Lead from '../components/Lead'
 
 export default class Leads extends Component {
+
+    test = (e) => {
+        console.log(e.target.checked)
+    }
+
     render() {
         return (
             <div>
@@ -15,21 +20,21 @@ export default class Leads extends Component {
                                 <h4 className="card-title">Open Leads</h4>
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div className="btn-group">
+                                <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     View Options
                                 </button>
-                                <div class="dropdown-menu">
-                                    <div class="dropdown-item">
+                                <div className="dropdown-menu">
+                                    <div className="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
-                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" />
-                                            <label className="custom-control-label" for="customToggle2">Last 30 Days</label>
+                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" onClick={(e) => this.test(e)} />
+                                            <label className="custom-control-label" htmlFor="customToggle2">Last 30 Days</label>
                                         </div>
                                     </div>
-                                    <div class="dropdown-item">
+                                    <div className="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
                                             <input type="checkbox" id="customToggle3" name="customToggle3" className="custom-control-input" />
-                                            <label className="custom-control-label" for="customToggle3">Hot</label>
+                                            <label className="custom-control-label" htmlFor="customToggle3">Hot</label>
                                         </div>
                                     </div>
                                 </div>

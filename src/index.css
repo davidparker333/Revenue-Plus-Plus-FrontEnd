@@ -58,3 +58,7 @@ a:hover {
   display: block;
   margin: auto;
 }
+
+.save-btn {
+  width: 100%;
+}
