@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
-import Opportunity from '../components/Opportunity'
+import EventPage from '../components/EventPage'
 
-export default class Opportunities extends Component {
+export default class Events extends Component {
     render() {
         return (
             <div>
@@ -12,7 +12,7 @@ export default class Opportunities extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">Open Opportunities</h4>
+                                <h4 className="card-title">Upcoming Events</h4>
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div class="btn-group">
@@ -23,7 +23,7 @@ export default class Opportunities extends Component {
                                     <div class="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
                                             <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" />
-                                            <label className="custom-control-label" for="customToggle2">Last 30 Days</label>
+                                            <label className="custom-control-label" for="customToggle2">This Week</label>
                                         </div>
                                     </div>
                                 </div>
@@ -33,14 +33,14 @@ export default class Opportunities extends Component {
                         <table className="table">
                             <thead className="thead">
                                 <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Company</th>
-                                <th scope="col">Value</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">Event</th>
+                                <th scope="col">With</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <Opportunity />
+                                <EventPage />
                             </tbody>
                         </table>
                     </div>

@@ -12,7 +12,7 @@ export default class Leads extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">Leads</h4>
+                                <h4 className="card-title">Open Leads</h4>
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div class="btn-group">

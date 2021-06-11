@@ -13,12 +13,12 @@ code {
 }
 
 a {
-  text-decoration: none;
   color: black;
 }
 
 a:hover {
   color: black;
+  text-decoration: underline;
 }
 
 .banner-hr {

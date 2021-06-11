@@ -26,11 +26,11 @@ export default class NavbarLoggedIn extends Component {
                 </Link>
               </li>
               <li className="nav-item active">
-                <Link className="nav-link" to="/home">Events
+                <Link className="nav-link" to="/events">Events
                 </Link>
               </li>
               <li className="nav-item active">
-                <Link className="nav-link" to="/home">Reports
+                <Link className="nav-link" to="/reports">Reports
                 </Link>
               </li>
               {/* <li className="nav-item">

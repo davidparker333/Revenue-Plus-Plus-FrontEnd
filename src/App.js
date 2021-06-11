@@ -6,11 +6,14 @@ import Navbar from './components/Navbar'
 import NavbarLoggedIn from './components/NavbarLoggedIn';
 import Searchbar from './components/Searchbar';
 import CRMHome from './views/CRMHome';
+import Events from './views/Events';
 import Home from './views/Home';
+import LeadDetail from './views/LeadDetail';
 import Leads from './views/Leads';
 import Login from './views/Login';
 import Opportunities from './views/Opportunities';
 import Register from './views/Register';
+import Reports from './views/Reports';
 
 export default class App extends Component {
   constructor(){
@@ -64,7 +67,10 @@ export default class App extends Component {
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
           <Route exact path='/home' render={() => <CRMHome />} />
           <Route exact path='/leads' render={() => <Leads />} />
+          <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} />} />
           <Route exact path='/opportunities' render={() => <Opportunities />} />
+          <Route exact path='/events' render={() => <Events />} />
+          <Route exact path='/reports' render={() => <Reports />} />
         </Switch>
         </Container>
       </div>
