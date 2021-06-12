@@ -124,7 +124,7 @@ export default class LeadDetail extends Component {
 
                     </div>
                 </Row>
-                <Row>
+                <Row className='mb-4'>
                     <div className='col-12'>
                     <div class="card">
                         <div class="card-body">

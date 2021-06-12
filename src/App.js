@@ -13,6 +13,7 @@ import Leads from './views/Leads';
 import Login from './views/Login';
 import Opportunities from './views/Opportunities';
 import OpportunityDetail from './views/OpportunityDetail';
+import EventDetail from './views/EventDetail';
 import Register from './views/Register';
 import Reports from './views/Reports';
 
@@ -72,6 +73,7 @@ export default class App extends Component {
           <Route exact path='/opportunities' render={() => <Opportunities />} />
           <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} />} />
           <Route exact path='/events' render={() => <Events />} />
+          <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} />} />
           <Route exact path='/reports' render={() => <Reports />} />
         </Switch>
         </Container>
