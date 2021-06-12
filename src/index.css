@@ -62,3 +62,15 @@ a:hover {
 .save-btn {
   width: 100%;
 }
+
+.date-picker {
+  width: 100%;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.add-button {
+  font-size: 15px;
+}

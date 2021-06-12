@@ -1,7 +1,16 @@
-import React, { Component } from 'react'
-import { Row } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Row } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class EventDetail extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            date: new Date('June 16, 2021 10:30')
+        }
+    }
 
     edit = (e) => {
         e.preventDefault();
@@ -20,6 +29,18 @@ export default class EventDetail extends Component {
         document.getElementById('contact-info-group').disabled = true;
         document.getElementById('lead-info-group').disabled = true;
         document.getElementById('save-button-space').innerHTML = "";
+    }
+
+    setDateTime = (date) => {
+        let time = date.toString().split(" ").slice(4, 6).join(" ");
+        date = date.toString().split(" ").slice(0,4).join(" ");
+        let datetime = date + " " + time;
+        if (document.getElementById('contact-info-group').disabled === false) {
+            let selected = new Date(datetime)
+            this.setState({
+                date: selected
+            })
+        }
     }
 
     render() {
@@ -58,12 +79,12 @@ export default class EventDetail extends Component {
                         <form>
                             <fieldset id='contact-info-group' disabled>
                             <div class="form-group">
-                                <label for="firstName">Date</label>
-                                <input type="text" id="firstName" class="form-control" defaultValue="6/16/21" />
+                                <label for="firstName">Date</label><br />
+                                <DatePicker selected={this.state.date} className='form-control date-picker' id="event-date-picker" dateFormat="MM/dd/yyyy" onChange={(date) => this.setDateTime(date)} />
                             </div>
                             <div class="form-group">
                                 <label for="lastName">Time</label>
-                                <input type="text" id="lastName" class="form-control" defaultValue="10:30AM" />
+                                <DatePicker selected={this.state.date} className='form-control' showTimeSelect showTimeSelectOnly timeIntervals={15} timeCaption="Time" dateFormat="h:mm aa" onChange={(date) => this.setDateTime(date)} />
                             </div>
                             </fieldset>
                         </form>

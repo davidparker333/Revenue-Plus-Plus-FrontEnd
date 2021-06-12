@@ -12,12 +12,12 @@ export default function Navbar() {
           <div className="collapse navbar-collapse mr-auto" id="navbarNavDropdown-6">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-                <Link className="nav-link" to="/">Home
+                <Link className="nav-link" to="/" data-toggle="collapse" data-target=".navbar-collapse.show">Home
                   <span className="sr-only">(current)</span>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Features</Link>
+                <Link className="nav-link" to="/" data-toggle="collapse" data-target=".navbar-collapse.show">Features</Link>
               </li>
               {/* <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink-6" data-toggle="dropdown"
@@ -34,10 +34,10 @@ export default function Navbar() {
 
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <Link to="/login"><button type="button" className="btn btn-secondary btn-squared mx-1 my-1">Log In</button></Link>
+                    <Link to="/login"><button type="button" className="btn btn-secondary btn-squared mx-1 my-1" data-toggle="collapse" data-target=".navbar-collapse.show">Log In</button></Link>
                 </li>
                 <li className="nav-item">
-                    <Link to='/register'><button type="button" className="btn btn-light btn-squared mx-1 my-1">Sign Up</button></Link>
+                    <Link to='/register'><button type="button" className="btn btn-light btn-squared mx-1 my-1" data-toggle="collapse" data-target=".navbar-collapse.show">Sign Up</button></Link>
                 </li>
             </ul>
           </div>

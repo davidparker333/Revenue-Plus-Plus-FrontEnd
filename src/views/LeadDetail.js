@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 import Activity from '../components/Activity'
 
 export default class LeadDetail extends Component {
@@ -141,7 +142,7 @@ export default class LeadDetail extends Component {
                                 <Activity />
                             </tbody>
                             </table>
-                            <a href="/" className="btn btn-primary">Log Activity</a>
+                            <Link to="/logactivity/lead/1" className="btn btn-primary">Log Activity</Link>
                         </div>
                     </div>
                     </div>

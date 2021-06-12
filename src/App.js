@@ -10,12 +10,15 @@ import Events from './views/Events';
 import Home from './views/Home';
 import LeadDetail from './views/LeadDetail';
 import Leads from './views/Leads';
+import AddLead from './views/AddLead';
 import Login from './views/Login';
 import Opportunities from './views/Opportunities';
 import OpportunityDetail from './views/OpportunityDetail';
 import EventDetail from './views/EventDetail';
 import Register from './views/Register';
 import Reports from './views/Reports';
+import LogActivityLead from './views/LogActivityLead';
+import LogActivityOpportunity from './views/LogActivityOpportunity';
 
 export default class App extends Component {
   constructor(){
@@ -70,8 +73,11 @@ export default class App extends Component {
           <Route exact path='/home' render={() => <CRMHome />} />
           <Route exact path='/leads' render={() => <Leads />} />
           <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} />} />
+          <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} />} />
+          <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} />} />
           <Route exact path='/opportunities' render={() => <Opportunities />} />
           <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} />} />
+          <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} />} />
           <Route exact path='/events' render={() => <Events />} />
           <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} />} />
           <Route exact path='/reports' render={() => <Reports />} />

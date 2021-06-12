@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 import Activity from '../components/Activity'
 
 export default class OpportunityDetail extends Component {
@@ -58,7 +59,7 @@ export default class OpportunityDetail extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">The Saco Deli & Co</h4>
+                                <h4 className="card-title">Central Provisions</h4>
                                 <small>Last updated 4 days ago</small>
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
@@ -189,7 +190,7 @@ export default class OpportunityDetail extends Component {
                                 <Activity />
                             </tbody>
                             </table>
-                            <a href="/" className="btn btn-primary">Log Activity</a>
+                            <Link to="/logactivity/opportunity/1" className="btn btn-primary">Log Activity</Link>
                         </div>
                     </div>
                     </div>

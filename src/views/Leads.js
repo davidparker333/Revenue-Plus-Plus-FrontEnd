@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import Lead from '../components/Lead'
+import { Link } from 'react-router-dom'
 
 export default class Leads extends Component {
 
@@ -22,7 +23,7 @@ export default class Leads extends Component {
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div className="btn-group">
                                 <button type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    View Options
+                                    Lead Options
                                 </button>
                                 <div className="dropdown-menu">
                                     <div className="dropdown-item">
@@ -36,6 +37,9 @@ export default class Leads extends Component {
                                             <input type="checkbox" id="customToggle3" name="customToggle3" className="custom-control-input" />
                                             <label className="custom-control-label" htmlFor="customToggle3">Hot</label>
                                         </div>
+                                    </div>
+                                    <div className="dropdown-item">
+                                        <Link to='/addlead'>New Lead</Link>
                                     </div>
                                 </div>
                             </div>
