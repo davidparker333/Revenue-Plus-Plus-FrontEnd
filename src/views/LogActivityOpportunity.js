@@ -34,7 +34,7 @@ export default class LogActivityOpportunity extends Component {
         }
         return (
             <div>
-                <Row className='mt-4'>
+            <Row className='mt-4'>
             <div className="col-12">
                 <div className="card">
                 <div className="card-body">
@@ -64,9 +64,10 @@ export default class LogActivityOpportunity extends Component {
                                         <option value="1">Call</option>
                                         <option value="2">Text</option>
                                         <option value="3">Email</option>
-                                        <option value="4">Follow Up Meeting</option>
-                                        <option value="5">Proposal</option>
-                                        <option value="6">Other</option>
+                                        <option value="4">Meeting</option>
+                                        <option value="5">Follow Up Meeting</option>
+                                        <option value="6">Proposal</option>
+                                        <option value="7">Other</option>
                                     </select>
                                 </div>
                                 <div className='col-12 col-md-2 mb-3'>

@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from 'react-router-dom';
 
-export default class LogActivity extends Component {
+export default class MeetingHeld extends Component {
     constructor() {
         super();
 
@@ -24,7 +24,7 @@ export default class LogActivity extends Component {
     saveActivity = () => {
         this.props.addMessage("Activity Saved", 'success');
         this.setState({
-            redirect: '/leads/1'
+            redirect: '/opportunities/1'
         })
     }
 
@@ -40,7 +40,7 @@ export default class LogActivity extends Component {
                 <div className="card-body">
                     <Row className='mb-2'>
                         <div className='col-6 col-md-8 col-lg-10'>
-                            <h4 className="card-title">The Saco Deli & Co</h4>
+                            <h4 className="card-title">Central Provisions</h4>
                             <small>Last updated 4 days ago</small>
                         </div>
                         <div className='col-6 col-md-4 col-lg-2'>
@@ -64,8 +64,10 @@ export default class LogActivity extends Component {
                                         <option value="1">Call</option>
                                         <option value="2">Text</option>
                                         <option value="3">Email</option>
-                                        <option value="4">Check-In</option>
-                                        <option value="5">Other</option>
+                                        <option value="4" selected>Meeting</option>
+                                        <option value="5">Follow Up Meeting</option>
+                                        <option value="6">Proposal</option>
+                                        <option value="7">Other</option>
                                     </select>
                                 </div>
                                 <div className='col-12 col-md-2 mb-3'>
@@ -81,7 +83,7 @@ export default class LogActivity extends Component {
                     </div>
                     </div>
                 </Row>
-        </div>
+            </div>
         )
     }
 }

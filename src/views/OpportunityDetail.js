@@ -58,6 +58,12 @@ export default class OpportunityDetail extends Component {
         })
     }
 
+    meetingHeld = () => {
+        this.setState({
+            redirect: '/meetingheld/1'
+        })
+    }
+
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
@@ -79,9 +85,9 @@ export default class OpportunityDetail extends Component {
                                     Opportunity
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button className="dropdown-item" href="/" onClick={(e) => this.edit(e)}>Edit</button>
-                                    <a className="dropdown-item" href="/">Meeting Held</a>
-                                    <a className="dropdown-item" href="/">Create Event</a>
+                                    <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
+                                    <button className="dropdown-item" onClick={this.meetingHeld}>Meeting Held</button>
+                                    <Link className="dropdown-item" to="/addevent/1">Create Event</Link>
                                     <button className="dropdown-item" onClick={this.delete}>Delete</button>
                                 </div>
                             </div>

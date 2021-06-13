@@ -19,6 +19,10 @@ import Register from './views/Register';
 import Reports from './views/Reports';
 import LogActivityLead from './views/LogActivityLead';
 import LogActivityOpportunity from './views/LogActivityOpportunity';
+import LeadConvert from './views/LeadConvert';
+import MeetingHeld from './views/MeetingHeld';
+import CreateEvent from './views/CreateEvent';
+import CreateEventOpp from './views/CreateEventOpp';
 
 export default class App extends Component {
   constructor(){
@@ -75,11 +79,15 @@ export default class App extends Component {
           <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} />} />
           <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} />} />
+          <Route exact path='/convert/lead/:id' render={({match}) => <LeadConvert match={match} addMessage={this.addMessage} />} />
           <Route exact path='/opportunities' render={() => <Opportunities />} />
           <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} />} />
+          <Route exact path='/meetingheld/:id' render={({match}) => <MeetingHeld match={match} addMessage={this.addMessage} />} />
           <Route exact path='/events' render={() => <Events />} />
           <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} addMessage={this.addMessage} />} />
+          <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} />} />
+          <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} />} />
           <Route exact path='/reports' render={() => <Reports />} />
         </Switch>
         </Container>

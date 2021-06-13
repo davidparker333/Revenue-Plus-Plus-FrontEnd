@@ -38,6 +38,12 @@ export default class LeadDetail extends Component {
         })
     }
 
+    convert = () => {
+        this.setState({
+            redirect: '/convert/lead/1'
+        })
+    }
+
 
     render() {
         if (this.state.redirect) {
@@ -61,7 +67,7 @@ export default class LeadDetail extends Component {
                                 </button>
                                 <div class="dropdown-menu">
                                     <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
-                                    <a className="dropdown-item" href="/">Convert to Opportunity</a>
+                                    <button className="dropdown-item" onClick={this.convert}>Convert to Opportunity</button>
                                     <button className="dropdown-item" onClick={this.delete}>Delete</button>
                                 </div>
                             </div>
