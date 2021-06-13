@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Activity from '../components/Activity'
 
 export default class LeadDetail extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            redirect: null
+        }
+    }
 
     edit = (e) => {
         e.preventDefault();
@@ -24,8 +31,18 @@ export default class LeadDetail extends Component {
         document.getElementById('save-button-space').innerHTML = "";
     }
 
+    delete = () => {
+        this.props.addMessage('Lead has been deleted.', 'warning');
+        this.setState({
+            redirect: '/leads'
+        })
+    }
+
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -45,7 +62,7 @@ export default class LeadDetail extends Component {
                                 <div class="dropdown-menu">
                                     <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
                                     <a className="dropdown-item" href="/">Convert to Opportunity</a>
-                                    <a className="dropdown-item" href="/">Delete</a>
+                                    <button className="dropdown-item" onClick={this.delete}>Delete</button>
                                 </div>
                             </div>
                             </div>

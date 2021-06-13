@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Row } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { Redirect } from 'react-router-dom';
 
 export default class EventDetail extends Component {
     constructor() {
         super();
 
         this.state = {
-            date: new Date('June 16, 2021 10:30')
+            date: new Date('June 16, 2021 10:30'),
+            redirect: null
         }
     }
 
@@ -43,7 +45,17 @@ export default class EventDetail extends Component {
         }
     }
 
+    delete = () => {
+        this.props.addMessage('Event has been deleted.', 'warning');
+        this.setState({
+            redirect: '/events'
+        })
+    }
+
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -62,7 +74,7 @@ export default class EventDetail extends Component {
                                 </button>
                                 <div class="dropdown-menu">
                                     <button className="dropdown-item" href="/" onClick={(e) => this.edit(e)}>Edit</button>
-                                    <a className="dropdown-item" href="/">Delete</a>
+                                    <button className="dropdown-item" onClick={this.delete}>Delete</button>
                                 </div>
                             </div>
                             </div>

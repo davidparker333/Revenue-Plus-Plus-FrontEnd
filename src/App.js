@@ -72,14 +72,14 @@ export default class App extends Component {
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
           <Route exact path='/home' render={() => <CRMHome />} />
           <Route exact path='/leads' render={() => <Leads />} />
-          <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} />} />
+          <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} />} />
           <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} />} />
           <Route exact path='/opportunities' render={() => <Opportunities />} />
-          <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} />} />
+          <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} />} />
           <Route exact path='/events' render={() => <Events />} />
-          <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} />} />
+          <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/reports' render={() => <Reports />} />
         </Switch>
         </Container>

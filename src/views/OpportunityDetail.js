@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Activity from '../components/Activity'
 
 export default class OpportunityDetail extends Component {
@@ -8,7 +8,8 @@ export default class OpportunityDetail extends Component {
         super();
 
         this.state = {
-            progress: {"width": "50%"}
+            progress: {"width": "50%"},
+            redirect: null
         }
     }
 
@@ -50,7 +51,17 @@ export default class OpportunityDetail extends Component {
         }
     }
 
+    delete = () => {
+        this.props.addMessage('Opportunity has been deleted.', 'warning');
+        this.setState({
+            redirect: '/opportunities'
+        })
+    }
+
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect} />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -71,7 +82,7 @@ export default class OpportunityDetail extends Component {
                                     <button className="dropdown-item" href="/" onClick={(e) => this.edit(e)}>Edit</button>
                                     <a className="dropdown-item" href="/">Meeting Held</a>
                                     <a className="dropdown-item" href="/">Create Event</a>
-                                    <a className="dropdown-item" href="/">Delete</a>
+                                    <button className="dropdown-item" onClick={this.delete}>Delete</button>
                                 </div>
                             </div>
                             </div>
