@@ -64,7 +64,8 @@ export default class App extends Component {
         localStorage.setItem('token', data.token)
         this.addMessage("You have successfully logged in!", 'success')
         this.setState({
-          isLoggedIn: true
+          isLoggedIn: true,
+          userID: data.user_id
         })
       }).catch(e => {
         console.log(e)
@@ -78,10 +79,6 @@ export default class App extends Component {
     this.setState({
       isLoggedIn: false
     })
-  }
-
-  checkToken = (token) => {
-    console.log(token)
   }
   
   render() {
@@ -98,7 +95,7 @@ export default class App extends Component {
           <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/leads' render={() => <Leads />} />
           <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} />} />
+          <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} userID={this.state.userID} />} />
           <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} />} />
           <Route exact path='/convert/lead/:id' render={({match}) => <LeadConvert match={match} addMessage={this.addMessage} />} />
           <Route exact path='/opportunities' render={() => <Opportunities />} />

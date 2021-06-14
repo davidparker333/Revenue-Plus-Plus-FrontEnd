@@ -7,19 +7,66 @@ export default class AddLead extends Component {
         super();
 
         this.state = {
-            redirect: null
+            redirect: null,
+            unauthorized: false
         }
     }
 
     addLead = () => {
+        let firstName = document.getElementById('firstName').value;
+        let lastName = document.getElementById('lastName').value;
+        let phoneNumber = document.getElementById('phoneNumber').value;
+        let cellPhoneNumber = document.getElementById('cellPhoneNumber').value;
+        let businessName = document.getElementById('businessName').value;
+        let address = document.getElementById('address').value;
+        let status = document.getElementById('status').value;
+        let hot = document.getElementById('hot').checked;
+        fetch('http://localhost:5000/api/newlead',{
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "first_name": firstName,
+                "last_name": lastName,
+                "phone_number": phoneNumber,
+                "cell_phone_number": cellPhoneNumber,
+                "business_name": businessName,
+                "address": address,
+                "status": status,
+                "hot": hot
+            })
+        }).then(res => {
+            if (res.status === 401) {
+                this.props.addMessage('Your session has expired. Please Login.', 'danger')
+                this.setState({
+                    unauthorized: true
+                })
+                this.redirect('/login')
+            }
+            res.json()
+        })
+            .then(() => {
+                if (this.state.unauthorized === false) {
+                    this.props.addMessage('Lead Added Successfully', 'success')
+                    this.redirect('/leads')
+                }
+            })
+            .catch(e => {
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    redirect = (location) => {
         this.setState({
-            redirect: '/leads'
+            redirect: location
         })
     }
 
     render() {
         if (this.state.redirect) {
-            this.props.addMessage('Lead Added Successfully', 'success')
             return <Redirect to={this.state.redirect}></Redirect>
         }
         return (
@@ -49,20 +96,21 @@ export default class AddLead extends Component {
                         <form>
                             <fieldset id='contact-info-group'>
                             <div class="form-group">
-                                <label for="disabledTextInput">First Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Last Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Cell Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="cellPhoneNumber">Cell Phone Number</label>
+                                <input type="text" id="cellPhoneNumber" name="cellPhoneNumber" class="form-control" autoComplete="none" />
+                                <input className='invisible' />
                             </div>
                             </fieldset>
                         </form>
@@ -73,19 +121,20 @@ export default class AddLead extends Component {
                     <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">Lead Info</h5>
-                        <form>
+                        <form autoComplete="off">
                             <fieldset id='lead-info-group'>
                             <div class="form-group">
-                                <label for="disabledTextInput">Business Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="businessName">Business Name</label>
+                                <input type="text" id="businessName" name="businessname" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Address</label>
-                                <input type="text" id="disabledTextInput" class="form-control" />
+                                <label for="address">Address</label>
+                                <input type="text" id="address" name="address" class="form-control" autoComplete="none" />
+                                <input className='invisible' />
                             </div>
                             <div class="form-group">
-                                <label for="disabledSelect">Status</label>
-                                <select id="disabledSelect" class="form-control">
+                                <label for="status">Status</label>
+                                <select id="status" name="status" class="form-control">
                                     <option hidden>DM Reached</option>
                                     <option>Pending</option>
                                     <option>Contact Attempted</option>
@@ -97,8 +146,8 @@ export default class AddLead extends Component {
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                    <label class="custom-control-label" for="customCheck1">Hot Lead</label>
+                                    <input type="checkbox" class="custom-control-input" id="hot" name="hot" />
+                                    <label class="custom-control-label" for="hot">Hot Lead</label>
                                 </div>
                             </div>
                             </fieldset>
