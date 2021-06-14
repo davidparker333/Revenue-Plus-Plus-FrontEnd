@@ -31,7 +31,7 @@ export default class App extends Component {
     this.state = {
       message: null,
       category: null,
-      isLoggedIn: false
+      isLoggedIn: localStorage.getItem('token') !== null
     }
   }
 
@@ -49,18 +49,39 @@ export default class App extends Component {
     })
   }
 
-  handleLogin = (e) => {
-    this.setState({
-      isLoggedIn: true
-    })
-    this.addMessage("You have successfully logged in!", 'success')
+  handleLogin = async (e) => {
+    let username = e.target.username.value;
+    let password = e.target.password.value;
+    await fetch('http://localhost:5000/api/login', {
+      method: 'POST',
+      headers: {
+        "Content-Type":"application/json",
+        "Accept":"*/*",
+        "Authorization": "Basic " + btoa(`${username}:${password}`)
+      }
+    }).then(res => res.json())
+      .then(data => {
+        localStorage.setItem('token', data.token)
+        this.addMessage("You have successfully logged in!", 'success')
+        this.setState({
+          isLoggedIn: true
+        })
+      }).catch(e => {
+        console.log(e)
+        this.addMessage("Check your username / password and try again.", 'danger')
+      })
   }
 
   handleLogout = () => {
+    localStorage.removeItem('token');
+    this.addMessage("You are now logged out.", 'warning');
     this.setState({
       isLoggedIn: false
     })
-    this.addMessage("You have successfully logged out!", 'warning')
+  }
+
+  checkToken = (token) => {
+    console.log(token)
   }
   
   render() {
@@ -72,9 +93,9 @@ export default class App extends Component {
         {this.state.isLoggedIn ? (<Searchbar/>) : (<div></div>)}
         <Switch>
           <Route exact path="/" render={() => <Home />} />
-          <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
-          <Route exact path='/home' render={() => <CRMHome />} />
+          <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/leads' render={() => <Leads />} />
           <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} />} />
           <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} />} />

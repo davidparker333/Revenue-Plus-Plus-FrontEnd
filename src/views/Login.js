@@ -3,25 +3,26 @@ import { Row } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 
 export default class Login extends Component {
-    constructor() {
-        super();
-
-        this.state = {
-            redirect: null
+   
+    validateForm = (e) => {
+        if (e.target.username.value && e.target.password.value) {
+            return true
+        } else {
+            this.props.addMessage("Check your username / password and try again.", 'danger')
+            return false
         }
     }
 
     loginHelper = (e) => {
         e.preventDefault();
-        this.props.handleLogin(e)
-        this.setState({
-            redirect: '/home'
-        })
+        if (this.validateForm(e)) {
+            this.props.handleLogin(e)
+        }
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={this.state.redirect} />
+        if (this.props.isLoggedIn) {
+            return <Redirect to='/home' />
         }
         return (
             <div>
@@ -34,12 +35,12 @@ export default class Login extends Component {
                     <div className='col-12 col-sm-6 col-md-4 d-flex justify-content-center flex-column'>
                     <form onSubmit={(e) => this.loginHelper(e)} action="" method="">
                         <div className="form-group">
-                            <label>Email address</label>
-                            <input type="email" className="form-control" id="emailInput" aria-describedby="emailHelp" />
+                            <label>Username</label>
+                            <input type="text" className="form-control" id="usernameInput" name='username' aria-describedby="emailHelp" />
                         </div>
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password" className="form-control" id="passwordInput" />
+                            <input type="password" className="form-control" id="passwordInput" name='password' />
                         </div>
                         <button type="submit" className="btn btn-primary btn-squared">Submit</button>
                         </form>

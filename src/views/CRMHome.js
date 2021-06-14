@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import ClosedOpportunity from '../components/ClosedOpportunity'
 import ClosedOpportunityFooter from '../components/ClosedOpportunityFooter'
 import Event from '../components/Event'
@@ -9,6 +9,9 @@ import Opportunity from '../components/Opportunity'
 
 export default class CRMHome extends Component {
     render() {
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
                 <Row className='mt-4'>
