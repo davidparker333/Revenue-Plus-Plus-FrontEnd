@@ -1,15 +1,141 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import Lead from '../components/Lead'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 export default class Leads extends Component {
+    constructor() {
+        super();
 
-    test = (e) => {
-        console.log(e.target.checked)
+        this.state = {
+            redirect: null,
+            leads: []
+        }
+    }
+
+    componentDidMount = () => {
+        this.allOpenLeads()
+    }
+
+    allOpenLeads = () => {
+        fetch('http://localhost:5000/api/allopenleads', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+        }).then(res => res.json())
+            .then(data => {
+                this.setState({
+                    leads: data
+                })
+            })
+        .catch(e => {
+            console.log(e)
+            this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+    }
+
+    thisMonthLeads = () => {
+        fetch('http://localhost:5000/api/openleadsthismonth', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        leads: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    hotLeads = () => {
+        fetch('http://localhost:5000/api/openhotleads', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        leads: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    hotLeadsThisMonth = () => {
+        fetch('http://localhost:5000/api/hotleadsthismonth', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        leads: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    toggle30Day = (e) => {
+        if (e.target.checked && document.getElementById('hottoggle').checked === false) {
+           this.thisMonthLeads();
+        } else if (e.target.checked && document.getElementById('hottoggle').checked === true) {
+            this.hotLeadsThisMonth();
+        } else if (e.target.checked === false && document.getElementById('hottoggle').checked === true) {
+            this.hotLeads();
+        }
+        else {
+            this.allOpenLeads();
+        }
+    }
+
+    toggleHot = (e) => {
+        if (e.target.checked && document.getElementById('30daytoggle').checked === false) {
+            this.hotLeads();
+        } else if (e.target.checked && document.getElementById('30daytoggle').checked === true) {
+            this.hotLeadsThisMonth();
+        } else if (e.target.checked === false && document.getElementById('30daytoggle').checked === true) {
+            this.thisMonthLeads();
+        }
+        else {
+            this.allOpenLeads();
+        }
+    }
+
+    redirect = (location) => {
+        this.setState({
+            redirect: location
+        })
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={this.state.redirect}></Redirect>
+        }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -28,14 +154,14 @@ export default class Leads extends Component {
                                 <div className="dropdown-menu">
                                     <div className="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
-                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" onClick={(e) => this.test(e)} />
-                                            <label className="custom-control-label" htmlFor="customToggle2">Last 30 Days</label>
+                                            <input type="checkbox" id="30daytoggle" name="30daytoggle" className="custom-control-input" onClick={(e) => this.toggle30Day(e)} />
+                                            <label className="custom-control-label" htmlFor="30daytoggle">Last 30 Days</label>
                                         </div>
                                     </div>
                                     <div className="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
-                                            <input type="checkbox" id="customToggle3" name="customToggle3" className="custom-control-input" />
-                                            <label className="custom-control-label" htmlFor="customToggle3">Hot</label>
+                                            <input type="checkbox" id="hottoggle" name="hottoggle" className="custom-control-input" onClick={(e) => this.toggleHot(e)} />
+                                            <label className="custom-control-label" htmlFor="hottoggle">Hot</label>
                                         </div>
                                     </div>
                                     <div className="dropdown-item">
@@ -52,10 +178,11 @@ export default class Leads extends Component {
                                 <th scope="col">Last</th>
                                 <th scope="col">Phone #</th>
                                 <th scope="col">Company</th>
+                                <th scope="col" className='d-none d-lg-block'>Hot Lead</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <Lead />
+                                {this.state.leads.map((lead, index) => <Lead key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} hot={lead.hot} id={lead.id} />)}
                             </tbody>
                         </table>
                     </div>

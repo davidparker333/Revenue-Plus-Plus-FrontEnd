@@ -7,8 +7,7 @@ export default class AddLead extends Component {
         super();
 
         this.state = {
-            redirect: null,
-            unauthorized: false
+            redirect: null
         }
     }
 
@@ -38,23 +37,13 @@ export default class AddLead extends Component {
                 "status": status,
                 "hot": hot
             })
-        }).then(res => {
-            if (res.status === 401) {
-                this.props.addMessage('Your session has expired. Please Login.', 'danger')
-                this.setState({
-                    unauthorized: true
-                })
-                this.redirect('/login')
-            }
-            res.json()
-        })
+        }).then(res => res.json())
             .then(() => {
-                if (this.state.unauthorized === false) {
-                    this.props.addMessage('Lead Added Successfully', 'success')
-                    this.redirect('/leads')
-                }
+                this.props.addMessage('Lead Added Successfully', 'success')
+                this.redirect('/leads')
             })
             .catch(e => {
+                console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
             })
     }
@@ -68,6 +57,9 @@ export default class AddLead extends Component {
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect}></Redirect>
+        }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
         }
         return (
             <div>
@@ -96,19 +88,19 @@ export default class AddLead extends Component {
                         <form>
                             <fieldset id='contact-info-group'>
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
+                                <label htmlFor="firstName">First Name</label>
                                 <input type="text" id="firstName" name="firstName" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="lastName">Last Name</label>
+                                <label htmlFor="lastName">Last Name</label>
                                 <input type="text" id="lastName" name="lastName" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="phoneNumber">Phone Number</label>
+                                <label htmlFor="phoneNumber">Phone Number</label>
                                 <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="cellPhoneNumber">Cell Phone Number</label>
+                                <label htmlFor="cellPhoneNumber">Cell Phone Number</label>
                                 <input type="text" id="cellPhoneNumber" name="cellPhoneNumber" class="form-control" autoComplete="none" />
                                 <input className='invisible' />
                             </div>
@@ -124,16 +116,16 @@ export default class AddLead extends Component {
                         <form autoComplete="off">
                             <fieldset id='lead-info-group'>
                             <div class="form-group">
-                                <label for="businessName">Business Name</label>
+                                <label htmlFor="businessName">Business Name</label>
                                 <input type="text" id="businessName" name="businessname" class="form-control" autoComplete="none" />
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
+                                <label htmlFor="address">Address</label>
                                 <input type="text" id="address" name="address" class="form-control" autoComplete="none" />
                                 <input className='invisible' />
                             </div>
                             <div class="form-group">
-                                <label for="status">Status</label>
+                                <label htmlFor="status">Status</label>
                                 <select id="status" name="status" class="form-control">
                                     <option hidden>DM Reached</option>
                                     <option>Pending</option>
@@ -147,7 +139,7 @@ export default class AddLead extends Component {
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox mb-3">
                                     <input type="checkbox" class="custom-control-input" id="hot" name="hot" />
-                                    <label class="custom-control-label" for="hot">Hot Lead</label>
+                                    <label class="custom-control-label" htmlFor="hot">Hot Lead</label>
                                 </div>
                             </div>
                             </fieldset>

@@ -53,7 +53,7 @@ export default class NavbarLoggedIn extends Component {
             <li className="nav-item">
             <div class="btn-group">
               <button type="button" class="btn btn-light dropdown-toggle btn-squared mx-1 my-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-plus-square add-button"></i>
+              <i className="fas fa-plus-square add-button"></i>
               </button>
               <div class="dropdown-menu">
                 <Link to='/addlead' class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">New Lead</Link>

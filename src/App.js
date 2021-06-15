@@ -31,7 +31,8 @@ export default class App extends Component {
     this.state = {
       message: null,
       category: null,
-      isLoggedIn: localStorage.getItem('token') !== null
+      isLoggedIn: localStorage.getItem('token') !== null,
+      tokenExpiration: null
     }
   }
 
@@ -65,7 +66,7 @@ export default class App extends Component {
         this.addMessage("You have successfully logged in!", 'success')
         this.setState({
           isLoggedIn: true,
-          userID: data.user_id
+          tokenExpiration: new Date(data.expiration)
         })
       }).catch(e => {
         console.log(e)
@@ -73,12 +74,34 @@ export default class App extends Component {
       })
   }
 
+  checkToken = () => {
+    if (this.state.isLoggedIn === true) {
+      if (new Date() > this.state.tokenExpiration || localStorage.getItem('token') === null) {
+        this.sessionTimeout();
+      }
+    }
+    setTimeout(this.checkToken, 60000)
+  }
+  
+  componentDidMount = () => {
+  this.checkToken()
+  }
+
+
   handleLogout = () => {
     localStorage.removeItem('token');
     this.addMessage("You are now logged out.", 'warning');
     this.setState({
       isLoggedIn: false
     })
+  }
+
+  sessionTimeout = () => {
+    localStorage.removeItem('token');
+    this.setState({
+      isLoggedIn: false
+    })
+    window.location.reload();
   }
   
   render() {
@@ -92,21 +115,21 @@ export default class App extends Component {
           <Route exact path="/" render={() => <Home />} />
           <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
-          <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} />} />
-          <Route exact path='/leads' render={() => <Leads />} />
-          <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} userID={this.state.userID} />} />
-          <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/convert/lead/:id' render={({match}) => <LeadConvert match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/opportunities' render={() => <Opportunities />} />
-          <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/meetingheld/:id' render={({match}) => <MeetingHeld match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/events' render={() => <Events />} />
-          <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} />} />
-          <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} />} />
-          <Route exact path='/reports' render={() => <Reports />} />
+          <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/leads' render={() => <Leads addMessage={this.addMessage} sessionTimeout={this.sessionTimeout} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/leads/:id' render={({match}) => <LeadDetail match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/addlead' render={() => <AddLead addMessage={this.addMessage} userID={this.state.userID} sessionTimeout={this.sessionTimeout} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/logactivity/lead/:id' render={({match}) => <LogActivityLead match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/convert/lead/:id' render={({match}) => <LeadConvert match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/opportunities' render={() => <Opportunities isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/meetingheld/:id' render={({match}) => <MeetingHeld match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/events' render={() => <Events isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/reports' render={() => <Reports isLoggedIn={this.state.isLoggedIn} />} />
         </Switch>
         </Container>
       </div>

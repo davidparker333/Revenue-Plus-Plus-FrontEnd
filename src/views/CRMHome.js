@@ -4,10 +4,42 @@ import { Link, Redirect } from 'react-router-dom'
 import ClosedOpportunity from '../components/ClosedOpportunity'
 import ClosedOpportunityFooter from '../components/ClosedOpportunityFooter'
 import Event from '../components/Event'
-import Lead from '../components/Lead'
+import LeadPreview from '../components/LeadPreview'
 import Opportunity from '../components/Opportunity'
 
 export default class CRMHome extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            leads: []
+        }
+    }
+
+    dashInfo = () => {
+        fetch('http://localhost:5000/api/crmhome', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        leads: data[0]
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.dashInfo();
+    }
+
     render() {
         if (this.props.isLoggedIn === false) {
             return <Redirect to='/login' />
@@ -17,7 +49,6 @@ export default class CRMHome extends Component {
                 <Row className='mt-4'>
                     <div className='col-12 col-md-12 col-lg-8'>
                         <div className="card mb-2">
-                            {/* <img className="card-img-top" src="..." alt="..." /> */}
                             <div className="card-body">
                                 <h4 className="card-title">Recent Leads</h4>
                                 <table className="table">
@@ -30,7 +61,7 @@ export default class CRMHome extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <Lead />
+                                        {this.state.leads.map((lead, index) => <LeadPreview key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} id={lead.id} />)}
                                     </tbody>
                                 </table>
                                 <Link to="/leads" className="btn btn-primary">Go to Leads</Link>
@@ -39,7 +70,6 @@ export default class CRMHome extends Component {
                     </div>
                     <div className='col-12 col-md-12 col-lg-4'>
                         <div className="card mb-2">
-                            {/* <img className="card-img-top" src="..." alt="..." /> */}
                             <div className="card-body">
                                 <h4 className="card-title">Today's Events</h4>
                                 <table className="table">
@@ -61,7 +91,6 @@ export default class CRMHome extends Component {
                 <Row className='lg-mt-5'>
                     <div className='col-12 col-md-12 col-lg-4'>
                         <div className="card mb-2">
-                            {/* <img className="card-img-top" src="..." alt="..." /> */}
                             <div className="card-body">
                                 <h4 className="card-title">Closed Opportunities</h4>
                                 <table className="table">
@@ -84,7 +113,6 @@ export default class CRMHome extends Component {
                     </div>
                     <div className='col-12 col-md-12 col-lg-8'>
                         <div className="card mb-2">
-                            {/* <img className="card-img-top" src="..." alt="..." /> */}
                             <div className="card-body">
                                 <h4 className="card-title">Open Opportunities</h4>
                                 <table className="table">

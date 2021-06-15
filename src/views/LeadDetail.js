@@ -2,13 +2,15 @@ import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import { Link, Redirect } from 'react-router-dom';
 import Activity from '../components/Activity'
+import Moment from 'react-moment';
 
 export default class LeadDetail extends Component {
     constructor() {
         super();
 
         this.state = {
-            redirect: null
+            redirect: null,
+            lead: ''
         }
     }
 
@@ -26,6 +28,42 @@ export default class LeadDetail extends Component {
         };
 
     save = () => {
+        let id = this.props.match.params.id;
+        let firstName = document.getElementById('leadDetailFirstName').value;
+        let lastName = document.getElementById('leadDetailLastName').value;
+        let phoneNumber = document.getElementById('leadDetailPhoneNumber').value;
+        let cellPhoneNumber = document.getElementById('leadDetailCellPhoneNumber').value;
+        let businessName = document.getElementById('leadDetailBusinessName').value;
+        let address = document.getElementById('leadDetailAddress').value;
+        let status = document.getElementById('leadDetailStatus').value;
+        let hot = document.getElementById('leadDetailHot').checked;
+        fetch(`http://localhost:5000/api/edit/lead/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "first_name": firstName,
+                "last_name": lastName,
+                "phone_number": phoneNumber,
+                "cell_phone_number": cellPhoneNumber,
+                "business_name": businessName,
+                "address": address,
+                "status": status,
+                "hot": hot
+            })
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        lead: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
         document.getElementById('contact-info-group').disabled = true;
         document.getElementById('lead-info-group').disabled = true;
         document.getElementById('save-button-space').innerHTML = "";
@@ -44,10 +82,46 @@ export default class LeadDetail extends Component {
         })
     }
 
+    getLead = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/leads/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        lead: data
+                    })
+                    this.hotOrNot();
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.getLead();
+        this.hotOrNot();
+    }
+
+    hotOrNot = () => {
+        if (this.state.lead.hot === true) {
+            document.getElementById('leadDetailHot').checked = true;
+        }
+    }
+
 
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
+        }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
         }
         return (
             <div>
@@ -57,8 +131,8 @@ export default class LeadDetail extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">The Saco Deli & Co</h4>
-                                <small>Last updated 4 days ago</small>
+                                <h4 className="card-title">{this.state.lead.business_name}</h4>
+                                {this.state.lead.date_created ? <small>Created <Moment fromNow>{this.state.lead.date_created}</Moment></small> : ""}
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div className="btn-group">
@@ -85,20 +159,20 @@ export default class LeadDetail extends Component {
                         <form>
                             <fieldset id='contact-info-group' disabled>
                             <div class="form-group">
-                                <label for="disabledTextInput">First Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="Mark" />
+                                <label htmlFor="leadDetailFirstName">First Name</label>
+                                <input type="text" id="leadDetailFirstName" class="form-control" defaultValue={this.state.lead.first_name} />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Last Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="Otto" />
+                                <label htmlFor="leadDetailLastName">Last Name</label>
+                                <input type="text" id="leadDetailLastName" class="form-control" defaultValue={this.state.lead.last_name} />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="(207)957-8375" />
+                                <label htmlFor="leadDetailPhoneNumber">Phone Number</label>
+                                <input type="text" id="leadDetailPhoneNumber" class="form-control" defaultValue={this.state.lead.phone_number} />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Cell Phone Number</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="(207)837-8364" />
+                                <label htmlFor="leadDetailCellPhoneNumber">Cell Phone Number</label>
+                                <input type="text" id="leadDetailCellPhoneNumber" class="form-control" defaultValue={this.state.lead.cell_phone_number} />
                             </div>
                             </fieldset>
                         </form>
@@ -112,17 +186,17 @@ export default class LeadDetail extends Component {
                         <form>
                             <fieldset id='lead-info-group' disabled>
                             <div class="form-group">
-                                <label for="disabledTextInput">Business Name</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="The Saco Deli & Co" />
+                                <label htmlFor="leadDetailBusinessName">Business Name</label>
+                                <input type="text" id="leadDetailBusinessName" class="form-control" defaultValue={this.state.lead.business_name} />
                             </div>
                             <div class="form-group">
-                                <label for="disabledTextInput">Address</label>
-                                <input type="text" id="disabledTextInput" class="form-control" defaultValue="57 Main St Saco, ME 04072" />
+                                <label htmlFor="leadDetailAddress">Address</label>
+                                <input type="text" id="leadDetailAddress" class="form-control" defaultValue={this.state.lead.address} />
                             </div>
                             <div class="form-group">
-                                <label for="disabledSelect">Status</label>
-                                <select id="disabledSelect" class="form-control">
-                                    <option hidden>DM Reached</option>
+                                <label htmlFor="leadDetailStatus">Status</label>
+                                <select id="leadDetailStatus" class="form-control">
+                                    <option hidden>{this.state.lead.status}</option>
                                     <option>Pending</option>
                                     <option>Contact Attempted</option>
                                     <option>GK Reached</option>
@@ -133,8 +207,8 @@ export default class LeadDetail extends Component {
                             </div>
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                    <label class="custom-control-label" for="customCheck1">Hot Lead</label>
+                                    <input type="checkbox" class="custom-control-input" id="leadDetailHot" />
+                                    <label class="custom-control-label" htmlFor="leadDetailHot">Hot Lead</label>
                                 </div>
                             </div>
                             </fieldset>
