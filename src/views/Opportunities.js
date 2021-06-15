@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import Opportunity from '../components/Opportunity'
+import { Redirect } from 'react-router-dom';
 
 export default class Opportunities extends Component {
     render() {
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
                 <Row className='mt-4'>

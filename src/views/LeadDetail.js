@@ -70,10 +70,27 @@ export default class LeadDetail extends Component {
     }
 
     delete = () => {
-        this.props.addMessage('Lead has been deleted.', 'warning');
-        this.setState({
-            redirect: '/leads'
-        })
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/delete/lead/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.status === "deleted") {
+                        this.props.addMessage('Lead has been deleted.', 'warning');
+                        this.setState({
+                            redirect: '/leads'
+                        })
+                    }
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
     }
 
     convert = () => {

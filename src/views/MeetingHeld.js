@@ -32,6 +32,9 @@ export default class MeetingHeld extends Component {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
         }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
             <Row className='mt-4'>

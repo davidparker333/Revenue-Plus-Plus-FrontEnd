@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import EventPage from '../components/EventPage'
+import { Link, Redirect } from 'react-router-dom';
 
 export default class Events extends Component {
     render() {
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -17,7 +21,7 @@ export default class Events extends Component {
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    View Options
+                                    Event Options
                                 </button>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item">
@@ -26,6 +30,7 @@ export default class Events extends Component {
                                             <label className="custom-control-label" for="customToggle2">This Week</label>
                                         </div>
                                     </div>
+                                    <Link to='/addevent'><button className="dropdown-item">Add Event</button></Link>
                                 </div>
                             </div>
                             </div>
