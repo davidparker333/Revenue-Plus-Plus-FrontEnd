@@ -3,6 +3,7 @@ import { Row } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from 'react-router-dom';
+import Moment from 'react-moment';
 
 export default class LogActivity extends Component {
     constructor() {
@@ -10,7 +11,8 @@ export default class LogActivity extends Component {
 
         this.state = {
             date: new Date(),
-            redirect: null
+            redirect: null,
+            lead: ''
         }
     }
 
@@ -22,10 +24,58 @@ export default class LogActivity extends Component {
     }
 
     saveActivity = () => {
-        this.props.addMessage("Activity Saved", 'success');
-        this.setState({
-            redirect: '/leads/1'
-        })
+        let id = this.props.match.params.id;
+        let type = document.getElementById('logActivityLeadType').value;
+        let notes = document.getElementById('leadActivityNotes').value;
+        fetch(`http://localhost:5000/api/newactivity/lead/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "type": type,
+                "date": this.state.date,
+                "notes": notes
+            })
+            }).then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    this.props.addMessage("Activity Saved", 'success');
+                    this.setState({
+                        redirect: `/leads/${this.props.match.params.id}`
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    getLead = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/leads/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        lead: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.getLead();
     }
 
     render() {
@@ -43,8 +93,8 @@ export default class LogActivity extends Component {
                 <div className="card-body">
                     <Row className='mb-2'>
                         <div className='col-6 col-md-8 col-lg-10'>
-                            <h4 className="card-title">The Saco Deli & Co</h4>
-                            <small>Last updated 4 days ago</small>
+                            <h4 className="card-title">{this.state.lead.business_name}</h4>
+                            {this.state.lead.date_created ? <small>Created <Moment fromNow>{this.state.lead.date_created}</Moment></small> : ""}
                         </div>
                         <div className='col-6 col-md-4 col-lg-2'>
                         <button className='btn btn-primary' onClick={this.saveActivity}>Save Activity</button>
@@ -62,22 +112,22 @@ export default class LogActivity extends Component {
                             <Row className='mt-3'>
                                 <div className='col-12 col-md-3 mb-3'>
                                     <h6>Type</h6>
-                                    <select class="custom-select">
+                                    <select class="custom-select" id="logActivityLeadType">
                                         <option selected hidden>Choose Type</option>
-                                        <option value="1">Call</option>
-                                        <option value="2">Text</option>
-                                        <option value="3">Email</option>
-                                        <option value="4">Check-In</option>
-                                        <option value="5">Other</option>
+                                        <option value="Call">Call</option>
+                                        <option value="Text">Text</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Check-In">Check-In</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
                                 <div className='col-12 col-md-2 mb-3'>
                                     <h6>Date</h6>
-                                    <DatePicker selected={this.state.date} className='form-control date-picker' id="lead-activity-date-picker" dateFormat="MM/dd/yyyy" onChange={(date) => this.setDate(date)} />
+                                    <DatePicker selected={this.state.date} className='form-control date-picker' id="leadActivityDate" dateFormat="MM/dd/yyyy" onChange={(date) => this.setDate(date)} />
                                 </div>
                                 <div className='col-12 col-md-7 mb-3'>
                                     <h6>Notes</h6>
-                                    <textarea class="form-control" aria-label="With textarea"></textarea>
+                                    <textarea class="form-control" id="leadActivityNotes" aria-label="With textarea"></textarea>
                                 </div>
                             </Row>
                         </div>

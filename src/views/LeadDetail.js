@@ -10,7 +10,8 @@ export default class LeadDetail extends Component {
 
         this.state = {
             redirect: null,
-            lead: ''
+            lead: '',
+            activity: []
         }
     }
 
@@ -121,9 +122,30 @@ export default class LeadDetail extends Component {
             })
     }
 
+    getActivity = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/getactivity/lead/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        activity: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
     componentDidMount = () => {
         this.getLead();
-        this.hotOrNot();
+        this.getActivity();
     }
 
     hotOrNot = () => {
@@ -253,10 +275,10 @@ export default class LeadDetail extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <Activity />
+                                {this.state.activity.map((activity, index) => <Activity key={index} type={activity.type} date={activity.date} notes={activity.notes} />)}
                             </tbody>
                             </table>
-                            <Link to="/logactivity/lead/1" className="btn btn-primary">Log Activity</Link>
+                            <Link to={`/logactivity/lead/${this.props.match.params.id}`} className="btn btn-primary">Log Activity</Link>
                         </div>
                     </div>
                     </div>
