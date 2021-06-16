@@ -73,7 +73,7 @@ export default class LeadDetail extends Component {
     delete = () => {
         let id = this.props.match.params.id;
         fetch(`http://localhost:5000/api/delete/lead/${id}`, {
-            method: 'DELETE',
+            method: 'POST',
             headers: {
                 "Content-Type":"application/json",
                 "Accept":"*/*",
@@ -82,7 +82,7 @@ export default class LeadDetail extends Component {
             }).then(res => res.json())
                 .then(data => {
                     if (data.status === "deleted") {
-                        this.props.addMessage('Lead has been deleted.', 'warning');
+                        this.props.addMessage('Lead has been closed.', 'warning');
                         this.setState({
                             redirect: '/leads'
                         })
@@ -181,7 +181,7 @@ export default class LeadDetail extends Component {
                                 <div class="dropdown-menu">
                                     <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
                                     <button className="dropdown-item" onClick={this.convert}>Convert to Opportunity</button>
-                                    <button className="dropdown-item" onClick={this.delete}>Delete</button>
+                                    <button className="dropdown-item" onClick={this.delete}>Closed Lost</button>
                                 </div>
                             </div>
                             </div>
@@ -241,7 +241,6 @@ export default class LeadDetail extends Component {
                                     <option>GK Reached</option>
                                     <option>DM Reached</option>
                                     <option>Meeting Pending</option>
-                                    <option>Closed Lost</option>
                                 </select>
                             </div>
                             <div class="form-group">

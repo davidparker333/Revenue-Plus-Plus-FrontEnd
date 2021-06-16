@@ -12,7 +12,8 @@ export default class CRMHome extends Component {
         super();
 
         this.state = {
-            leads: []
+            leads: [],
+            opportunities: []
         }
     }
 
@@ -27,7 +28,8 @@ export default class CRMHome extends Component {
             }).then(res => res.json())
                 .then(data => {
                     this.setState({
-                        leads: data[0]
+                        leads: data[0],
+                        opportunities: data[1]
                     })
                 })
             .catch(e => {
@@ -125,7 +127,7 @@ export default class CRMHome extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <Opportunity />
+                                        {this.state.opportunities.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                                     </tbody>
                                 </table>
                                 <Link to="/opportunities" className="btn btn-primary">Go to Opportunities</Link>
