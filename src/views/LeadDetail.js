@@ -96,7 +96,7 @@ export default class LeadDetail extends Component {
 
     convert = () => {
         this.setState({
-            redirect: '/convert/lead/1'
+            redirect: `/convert/lead/${this.props.match.params.id}`
         })
     }
 
