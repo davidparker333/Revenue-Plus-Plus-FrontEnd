@@ -23,6 +23,7 @@ import LeadConvert from './views/LeadConvert';
 import MeetingHeld from './views/MeetingHeld';
 import CreateEvent from './views/CreateEvent';
 import CreateEventOpp from './views/CreateEventOpp';
+import SearchResults from './views/SearchResults';
 
 export default class App extends Component {
   constructor(){
@@ -130,6 +131,7 @@ export default class App extends Component {
           <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/reports' render={() => <Reports isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/search/:search' render={(match) => <SearchResults isLoggedIn={this.state.isLoggedIn} match={match} />} />
         </Switch>
         </Container>
       </div>
