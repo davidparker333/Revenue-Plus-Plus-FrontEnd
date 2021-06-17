@@ -1,15 +1,19 @@
-import React, { Component } from 'react'
-import { Row } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Row } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
-import Activity from '../components/Activity'
+import Activity from '../components/Activity';
+import Moment from 'react-moment';
 
 export default class OpportunityDetail extends Component {
     constructor() {
         super();
 
         this.state = {
-            progress: {"width": "50%"},
-            redirect: null
+            progress: {"width": "25%"},
+            redirect: null,
+            opportunity: "",
+            value: "",
+            activity: []
         }
     }
 
@@ -27,11 +31,50 @@ export default class OpportunityDetail extends Component {
         };
 
     save = () => {
+        let id = this.props.match.params.id;
+        let status = document.getElementById('statusSelect');
+        status = status.options[status.selectedIndex].text;
+        let firstName = document.getElementById('oppFirstName').value;
+        let lastName = document.getElementById('oppLastName').value;
+        let phoneNumber = document.getElementById('oppPhoneNumber').value;
+        let cellPhoneNumber = document.getElementById('oppCellPhoneNumber').value;
+        let businessName = document.getElementById('oppBusinessName').value;
+        let address = document.getElementById('oppAddress').value;
+        let value = document.getElementById('oppValue').value.replace('$', "");
+        fetch(`http://localhost:5000/api/edit/opportunity/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "first_name": firstName,
+                "last_name": lastName,
+                "phone_number": phoneNumber,
+                "cell_phone_number": cellPhoneNumber,
+                "business_name": businessName,
+                "address": address,
+                "status": status,
+                "value": value
+            })
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        opportunity: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
         document.getElementById('contact-info-group').disabled = true;
         document.getElementById('lead-info-group').disabled = true;
         document.getElementById('save-button-space').innerHTML = "";
-        let status = document.getElementById('statusSelect');
-        status = status.options[status.selectedIndex].text;
+        this.setProgressBar(status)
+    }
+
+    setProgressBar = (status) => {
         if (status === 'Meeting Scheduled') {
             this.setState({
                 progress: {"width": "25%"}
@@ -59,14 +102,128 @@ export default class OpportunityDetail extends Component {
     }
 
     meetingHeld = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/edit/opportunity/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "status": "Meeting Held"
+            })
+            })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
         this.setState({
-            redirect: '/meetingheld/1'
+            redirect: `/meetingheld/${this.state.opportunity.id}`
         })
+    }
+
+    getOpp = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/opportunities/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        opportunity: data,
+                        value: "$" + data.value
+                    })
+                    this.setProgressBar(data.status);
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    getActivity = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/getactivity/opportunity/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        activity: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    closedWon = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/close/won/opportunity/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        opportunity: data
+                    })
+                    this.setProgressBar(data.status);
+                    this.props.addMessage('Congrats! Opportunity saved as closed won!', 'success')
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    closedLost = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/close/lost/opportunity/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        opportunity: data
+                    })
+                    this.setProgressBar(data.status);
+                    this.props.addMessage('Opportunity saved as closed lost.', 'warning')
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.getOpp();
+        this.getActivity();
     }
 
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
+        }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
         }
         return (
             <div>
@@ -76,8 +233,8 @@ export default class OpportunityDetail extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">Central Provisions</h4>
-                                <small>Last updated 4 days ago</small>
+                                <h4 className="card-title">{this.state.opportunity.business_name}</h4>
+                                {this.state.opportunity.date_created ? <small>Created <Moment fromNow>{this.state.opportunity.date_created}</Moment></small> : ""}
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div className="btn-group">
@@ -87,8 +244,9 @@ export default class OpportunityDetail extends Component {
                                 <div class="dropdown-menu">
                                     <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
                                     <button className="dropdown-item" onClick={this.meetingHeld}>Meeting Held</button>
-                                    <Link className="dropdown-item" to="/addevent/1">Create Event</Link>
-                                    <button className="dropdown-item" onClick={this.delete}>Delete</button>
+                                    <button className="dropdown-item"  onClick={this.closedWon}>Closed Won</button>
+                                    <button className="dropdown-item" onClick={this.closedLost}>Closed Lost</button>
+                                    <Link className="dropdown-item" to={`/addevent/${this.props.match.params.id}`}>Create Event</Link>
                                 </div>
                             </div>
                             </div>
@@ -130,20 +288,20 @@ export default class OpportunityDetail extends Component {
                         <form>
                             <fieldset id='contact-info-group' disabled>
                             <div class="form-group">
-                                <label for="firstName">First Name</label>
-                                <input type="text" id="firstName" class="form-control" defaultValue="Mark" />
+                                <label for="oppFirstName">First Name</label>
+                                <input type="text" id="oppFirstName" class="form-control" defaultValue={this.state.opportunity.first_name} />
                             </div>
                             <div class="form-group">
-                                <label for="lastName">Last Name</label>
-                                <input type="text" id="lastName" class="form-control" defaultValue="Otto" />
+                                <label for="oppLastName">Last Name</label>
+                                <input type="text" id="oppLastName" class="form-control" defaultValue={this.state.opportunity.last_name} />
                             </div>
                             <div class="form-group">
-                                <label for="phoneNumber">Phone Number</label>
-                                <input type="text" id="phoneNumber" class="form-control" defaultValue="(207)957-8375" />
+                                <label for="oppPhoneNumber">Phone Number</label>
+                                <input type="text" id="oppPhoneNumber" class="form-control" defaultValue={this.state.opportunity.phone_number} />
                             </div>
                             <div class="form-group">
-                                <label for="cellPhoneNumber">Cell Phone Number</label>
-                                <input type="text" id="cellPhoneNumber" class="form-control" defaultValue="(207)837-8364" />
+                                <label for="oppCellPhoneNumber">Cell Phone Number</label>
+                                <input type="text" id="oppCellPhoneNumber" class="form-control" defaultValue={this.state.opportunity.cell_phone_number} />
                             </div>
                             </fieldset>
                         </form>
@@ -157,27 +315,25 @@ export default class OpportunityDetail extends Component {
                         <form>
                             <fieldset id='lead-info-group' disabled>
                             <div class="form-group">
-                                <label for="businessName">Business Name</label>
-                                <input type="text" id="businessName" class="form-control" defaultValue="The Saco Deli & Co" />
+                                <label for="oppBusinessName">Business Name</label>
+                                <input type="text" id="oppBusinessName" class="form-control" defaultValue={this.state.opportunity.business_name} />
                             </div>
                             <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" id="address" class="form-control" defaultValue="57 Main St Saco, ME 04072" />
+                                <label for="oppAddress">Address</label>
+                                <input type="text" id="oppAddress" class="form-control" defaultValue={this.state.opportunity.address} />
                             </div>
                             <div class="form-group">
                                 <label for="statusSelect">Status</label>
                                 <select id="statusSelect" class="form-control">
-                                    <option hidden>Meeting Held</option>
+                                    <option hidden>{this.state.opportunity.status}</option>
                                     <option>Meeting Scheduled</option>
                                     <option>Meeting Held</option>
                                     <option>Negotiating</option>
-                                    <option>Closed Won</option>
-                                    <option>Closed Lost</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="value">Value</label>
-                                <input type="text" id="value" class="form-control" defaultValue="$450" />
+                                <label for="oppValue">Value</label>
+                                <input type="text" id="oppValue" class="form-control" defaultValue={this.state.value} />
                             </div>
                             </fieldset>
                         </form>
@@ -204,10 +360,10 @@ export default class OpportunityDetail extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <Activity />
+                                {this.state.activity.map((activity, index) => <Activity key={index} type={activity.type} date={activity.date} notes={activity.notes} />)}
                             </tbody>
                             </table>
-                            <Link to="/logactivity/opportunity/1" className="btn btn-primary">Log Activity</Link>
+                            <Link to={`/logactivity/opportunity/${this.props.match.params.id}`} className="btn btn-primary">Log Activity</Link>
                         </div>
                     </div>
                     </div>

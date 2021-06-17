@@ -1,9 +1,73 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import Opportunity from '../components/Opportunity'
+import { Redirect } from 'react-router-dom';
 
 export default class Opportunities extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            opportunities: []
+        }
+    }
+
+    getOpportunities = () => {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/allopenopportunities', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+        }).then(res => res.json())
+            .then(data => {
+                this.setState({
+                    opportunities: data
+                })
+            })
+        .catch(e => {
+            console.log(e)
+            this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+    }
+
+    get30DayOpportunities = () => {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/openopportunitiesthismonth', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+        }).then(res => res.json())
+            .then(data => {
+                this.setState({
+                    opportunities: data
+                })
+            })
+        .catch(e => {
+            console.log(e)
+            this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+    }
+
+    toggle30Day = (e) => {
+        if (e.target.checked === false) {
+            this.getOpportunities();
+        } else {
+            this.get30DayOpportunities();
+        }
+    }
+
+    componentDidMount = () => {
+        this.getOpportunities();
+    }
+
     render() {
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
+        }
         return (
             <div>
                 <Row className='mt-4'>
@@ -22,8 +86,8 @@ export default class Opportunities extends Component {
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
-                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" />
-                                            <label className="custom-control-label" for="customToggle2">Last 30 Days</label>
+                                            <input type="checkbox" id="opp30DayToggle" name="opp30DayToggle" className="custom-control-input" onClick={(e) => this.toggle30Day(e)} />
+                                            <label className="custom-control-label" htmlFor="opp30DayToggle">Last 30 Days</label>
                                         </div>
                                     </div>
                                 </div>
@@ -40,7 +104,7 @@ export default class Opportunities extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <Opportunity />
+                                {this.state.opportunities.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                             </tbody>
                         </table>
                     </div>

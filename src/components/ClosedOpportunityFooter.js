@@ -5,7 +5,7 @@ export default class ClosedOpportunityFooter extends Component {
         return (
             <tr>
             <td><b>Total</b></td>
-            <td><b>$350</b></td>
+            {this.props.total ? <td><b>${this.props.total}</b></td> : <td></td>}
             </tr>
         )
     }

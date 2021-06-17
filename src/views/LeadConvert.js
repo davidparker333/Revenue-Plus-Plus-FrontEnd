@@ -10,7 +10,10 @@ export default class LeadConvert extends Component {
 
         this.state = {
             date: new Date(),
-            redirect: null
+            redirect: null,
+            lead: "",
+            contact: "",
+            eventName: ""
         }
     }
 
@@ -25,15 +28,85 @@ export default class LeadConvert extends Component {
     }
 
     save = () => {
-        this.props.addMessage("Lead Converted Successfully", 'success');
-        this.setState({
-            redirect: '/opportunities/1'
-        })
+        let id = this.props.match.params.id;
+        let eventName = document.getElementById('convertEventName').value;
+        if (document.getElementById('convertContactName').value.split(" ")[0] !== null) {
+            var firstName = document.getElementById('convertContactName').value.split(" ")[0];
+        } else {
+            //eslint-disable-next-line
+            var firstName = document.getElementById('convertContactName').value;
+        }
+        if (document.getElementById('convertContactName').value.split(" ").slice(1) !== null) {
+            var lastName = document.getElementById('convertContactName').value.split(" ").slice(1).join(' ').toString();
+        } else {
+            //eslint-disable-next-line
+            var lastName = ""
+        }
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/convert/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "event_name": eventName,
+                "date_time": this.state.date,
+                "first_name": firstName,
+                "last_name": lastName
+            })
+            }).then(res => res.json())
+                .then((data) => {
+                    this.props.addMessage("Lead Converted Successfully", 'success');
+                    this.setState({
+                        redirect: `/opportunities/${data[0].id}`
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    getLead = () => {
+        let id = this.props.match.params.id;
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/leads/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        lead: data
+                    })
+                    let name = data.first_name + " " + data.last_name;
+                    this.setState({
+                        contact: name
+                    })
+                    let eventName = "Meeting @ " + data.business_name;
+                    this.setState({
+                        eventName: eventName
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.getLead();
     }
 
     render() {
         if (this.state.redirect) {
             return <Redirect to={this.state.redirect} />
+        }
+        if (this.props.isLoggedIn === false) {
+            return <Redirect to='/login' />
         }
         return (
             <div>
@@ -44,7 +117,7 @@ export default class LeadConvert extends Component {
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
                                 <h4 className="card-title">Convert Lead</h4>
-                                <small>The Saco Deli & Co</small>
+                                {this.state.lead.business_name ? <small>{this.state.lead.business_name}</small> : ""}
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <button className='btn btn-primary' onClick={this.save}>Create Opportunity</button>
@@ -81,12 +154,12 @@ export default class LeadConvert extends Component {
                         <form>
                             <fieldset id='lead-info-group'>
                             <div class="form-group">
-                                <label for="businessName">Event Name</label>
-                                <input type="text" id="businessName" class="form-control" defaultValue="Meeting @ Business Name" />
+                                <label for="convertEventName">Event Name</label>
+                                <input type="text" id="convertEventName" class="form-control" defaultValue={this.state.eventName} />
                             </div>
                             <div class="form-group">
-                                <label for="address">Contact</label>
-                                <input type="text" id="address" class="form-control" defaultValue="Carl Munroe" />
+                                <label for="convertContactName">Contact</label>
+                                <input type="text" id="convertContactName" class="form-control" defaultValue={this.state.contact} />
                             </div>
                             </fieldset>
                         </form>

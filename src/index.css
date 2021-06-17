@@ -74,3 +74,11 @@ a:hover {
 .add-button {
   font-size: 15px;
 }
+
+.invisible {
+  display: none
+}
+
+.feature-img {
+  max-width: 100%;
+}

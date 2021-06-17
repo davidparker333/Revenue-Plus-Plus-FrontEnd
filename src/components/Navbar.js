@@ -17,7 +17,7 @@ export default function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/" data-toggle="collapse" data-target=".navbar-collapse.show">Features</Link>
+                <Link className="nav-link" to="/features" data-toggle="collapse" data-target=".navbar-collapse.show">Features</Link>
               </li>
               {/* <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink-6" data-toggle="dropdown"

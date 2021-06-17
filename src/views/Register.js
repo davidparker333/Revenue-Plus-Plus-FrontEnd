@@ -45,10 +45,28 @@ export default class Register extends Component {
         let password = e.target.password.value;
         let confirmPassword = e.target.confirmpassword.value;
         if (this.validateForm(email, username, password, confirmPassword)) {
-            this.setState({
-                redirect: '/login'
-            })
-            this.props.addMessage('You have successfully registered! Please log in.', 'success')
+            fetch('https://revenue-plus-plus.herokuapp.com/api/register', {
+                method: 'POST',
+                headers: {
+                    "Content-Type":"application/json",
+                    "Accept":"*/*"
+                },
+                body: JSON.stringify({
+                    "username": username,
+                    "email": email, 
+                    "password": password
+                })
+            }).then(res => res.json())
+                .then(data => {
+                    this.props.addMessage('You have successfully registered! Please log in.', 'success')
+                    this.setState({
+                        redirect: '/login'
+                    })
+                })
+                .catch(e => {
+                    console.log(e)
+                    this.props.addMessage("Something isn't right. Please try again", 'danger')
+                })
         }
     }
 

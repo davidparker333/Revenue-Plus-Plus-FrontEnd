@@ -5,10 +5,10 @@ export default class Opportunity extends Component {
     render() {
         return (
             <tr>
-            <td><Link to='/opportunities/1'>Jacob Thornton</Link></td>
-            <td><Link to='/opportunities/1'>Central Provisions</Link></td>
-            <td><Link to='/opportunities/1'>$450</Link></td>
-            <td><Link to='/opportunities/1'>Meeting Held</Link></td>
+            <td><Link to={`/opportunities/${this.props.id}`}>{this.props.firstName} {this.props.lastName}</Link></td>
+            <td><Link to={`/opportunities/${this.props.id}`}>{this.props.company}</Link></td>
+            {this.props.id ? <td><Link to={`/opportunities/${this.props.id}`}>${this.props.value}</Link></td> : <td></td>}
+            <td><Link to={`/opportunities/${this.props.id}`}>{this.props.status}</Link></td>
             </tr>
         )
     }
