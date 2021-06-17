@@ -41,7 +41,7 @@ export default class OpportunityDetail extends Component {
         let businessName = document.getElementById('oppBusinessName').value;
         let address = document.getElementById('oppAddress').value;
         let value = document.getElementById('oppValue').value.replace('$', "");
-        fetch(`http://localhost:5000/api/edit/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/edit/opportunity/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
