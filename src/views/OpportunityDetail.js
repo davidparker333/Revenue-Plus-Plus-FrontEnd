@@ -182,6 +182,7 @@ export default class OpportunityDetail extends Component {
                         opportunity: data
                     })
                     this.setProgressBar(data.status);
+                    this.props.addMessage('Congrats! Opportunity saved as closed won!', 'success')
                 })
             .catch(e => {
                 console.log(e)
@@ -204,6 +205,7 @@ export default class OpportunityDetail extends Component {
                         opportunity: data
                     })
                     this.setProgressBar(data.status);
+                    this.props.addMessage('Opportunity saved as closed lost.', 'warning')
                 })
             .catch(e => {
                 console.log(e)

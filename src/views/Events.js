@@ -1,9 +1,69 @@
 import React, { Component } from 'react'
 import { Row } from 'react-bootstrap'
 import EventPage from '../components/EventPage'
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 export default class Events extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            events: []
+        }
+    }
+
+    getEvents = () => {
+        fetch('http://localhost:5000/api/allevents', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        events: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    get7DayEvents = () => {
+        fetch('http://localhost:5000/api/eventsthisweek', {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        events: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    toggle7Day = (e) => {
+        if (e.target.checked === true) {
+            this.get7DayEvents();
+        } else {
+            this.getEvents();
+        }
+    }
+
+    componentDidMount = () => {
+        this.getEvents();
+    }
+
     render() {
         if (this.props.isLoggedIn === false) {
             return <Redirect to='/login' />
@@ -21,16 +81,15 @@ export default class Events extends Component {
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Event Options
+                                    View Options
                                 </button>
                                 <div class="dropdown-menu">
                                     <div class="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
-                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" />
-                                            <label className="custom-control-label" for="customToggle2">This Week</label>
+                                            <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" onClick={(e) => this.toggle7Day(e)} />
+                                            <label className="custom-control-label" for="customToggle2" >This Week</label>
                                         </div>
                                     </div>
-                                    <Link to='/addevent'><button className="dropdown-item">Add Event</button></Link>
                                 </div>
                             </div>
                             </div>
@@ -45,7 +104,7 @@ export default class Events extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <EventPage />
+                                {this.state.events.map((event, index) => <EventPage key={index} date={new Date(event.date_time).toString()} meetingName={event.event_name} contact={event.first_name + " " + event.last_name} id={event.id} />)}
                             </tbody>
                         </table>
                     </div>

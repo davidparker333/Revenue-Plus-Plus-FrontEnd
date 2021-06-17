@@ -57,7 +57,6 @@ export default class NavbarLoggedIn extends Component {
               </button>
               <div class="dropdown-menu">
                 <Link to='/addlead' class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">New Lead</Link>
-                <Link to='/addevent' class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">New Event</Link>
               </div>
             </div>
                 </li>

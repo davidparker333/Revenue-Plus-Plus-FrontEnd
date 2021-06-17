@@ -125,7 +125,7 @@ export default class App extends Component {
           <Route exact path='/opportunities/:id' render={({match}) => <OpportunityDetail match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/logactivity/opportunity/:id' render={({match}) => <LogActivityOpportunity match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/meetingheld/:id' render={({match}) => <MeetingHeld match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
-          <Route exact path='/events' render={() => <Events isLoggedIn={this.state.isLoggedIn} />} />
+          <Route exact path='/events' render={() => <Events isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/events/:id' render={({match}) => <EventDetail match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
