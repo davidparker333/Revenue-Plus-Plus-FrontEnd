@@ -24,6 +24,9 @@ import MeetingHeld from './views/MeetingHeld';
 import CreateEvent from './views/CreateEvent';
 import CreateEventOpp from './views/CreateEventOpp';
 import SearchResults from './views/SearchResults';
+import LeadReportClosedLost from './views/LeadReportClosed';
+import OppReportClosedWon from './views/OppReportClosedWon';
+import Features from './views/Features';
 
 export default class App extends Component {
   constructor(){
@@ -114,6 +117,7 @@ export default class App extends Component {
         {this.state.isLoggedIn ? (<Searchbar/>) : (<div></div>)}
         <Switch>
           <Route exact path="/" render={() => <Home />} />
+          <Route exact path="/features" render={() => <Features />} />
           <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
           <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
@@ -131,7 +135,9 @@ export default class App extends Component {
           <Route exact path='/addevent' render={() => <CreateEvent addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/reports' render={() => <Reports isLoggedIn={this.state.isLoggedIn} />} />
-          <Route exact path='/search/:search' render={(match) => <SearchResults isLoggedIn={this.state.isLoggedIn} match={match} />} />
+          <Route exact path='/reports/leads/closed' render={() => <LeadReportClosedLost isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/opportunities/closedwon' render={() => <OppReportClosedWon isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/search/:search' render={(match) => <SearchResults isLoggedIn={this.state.isLoggedIn} match={match} addMessage={this.addMessage} />} />
         </Switch>
         </Container>
       </div>
