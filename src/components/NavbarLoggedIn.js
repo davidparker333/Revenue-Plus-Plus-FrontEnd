@@ -33,30 +33,16 @@ export default class NavbarLoggedIn extends Component {
                 <Link className="nav-link" to="/reports" data-toggle="collapse" data-target=".navbar-collapse.show">Reports
                 </Link>
               </li>
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="/">Features</Link>
-              </li> */}
-              {/* <li className="nav-item dropdown">
-                <a className="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink-6" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  Services
-                </a>
-                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink-6">
-                  <a className="dropdown-item" href="/">Design</a>
-                  <a className="dropdown-item" href="/">Development</a>
-                  <a className="dropdown-item" href="/">Marketing</a>
-                </div>
-              </li> */}
             </ul>
 
             <ul className="navbar-nav">
             <li className="nav-item">
-            <div class="btn-group">
-              <button type="button" class="btn btn-light dropdown-toggle btn-squared mx-1 my-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div className="btn-group">
+              <button type="button" className="btn btn-light dropdown-toggle btn-squared mx-1 my-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i className="fas fa-plus-square add-button"></i>
               </button>
-              <div class="dropdown-menu">
-                <Link to='/addlead' class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">New Lead</Link>
+              <div className="dropdown-menu">
+                <Link to='/addlead' className="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">New Lead</Link>
               </div>
             </div>
                 </li>

@@ -15,7 +15,8 @@ export default class CRMHome extends Component {
             leads: [],
             opportunities: [],
             closed_opps: [],
-            value: 0
+            value: 0,
+            events: []
         }
     }
 
@@ -32,7 +33,8 @@ export default class CRMHome extends Component {
                     this.setState({
                         leads: data[0],
                         opportunities: data[1],
-                        closed_opps: data[2]
+                        closed_opps: data[2],
+                        events: data[3]
                     })
                     var value = 0
                     for (let i=0; i<data[2].length; i++) {
@@ -92,7 +94,7 @@ export default class CRMHome extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <Event />
+                                        {this.state.events.map((event, index) => <Event key={index} time={event.date_time} eventName={event.event_name} id={event.id} />)}
                                     </tbody>
                                 </table>
                                 <Link to="/events" className="btn btn-primary">Go to Events</Link>

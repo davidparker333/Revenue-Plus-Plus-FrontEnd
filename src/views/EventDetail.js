@@ -3,14 +3,17 @@ import { Row } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from 'react-router-dom';
+import Moment from 'react-moment';
 
 export default class EventDetail extends Component {
     constructor() {
         super();
 
         this.state = {
-            date: new Date('June 16, 2021 10:30'),
-            redirect: null
+            date: "",
+            redirect: null,
+            event: "",
+            contact: ""
         }
     }
 
@@ -28,6 +31,43 @@ export default class EventDetail extends Component {
         };
 
     save = () => {
+        let id = this.props.match.params.id;
+        let eventName = document.getElementById('eventEventName').value;
+        if (document.getElementById('eventContactName').value.split(" ")[0] !== null) {
+            var firstName = document.getElementById('eventContactName').value.split(" ")[0];
+        } else {
+            //eslint-disable-next-line
+            var firstName = document.getElementById('eventContactName').value;
+        }
+        if (document.getElementById('eventContactName').value.split(" ").slice(1) !== null) {
+            var lastName = document.getElementById('eventContactName').value.split(" ").slice(1).join(' ').toString();
+        } else {
+            //eslint-disable-next-line
+            var lastName = ""
+        }
+        fetch(`http://localhost:5000/api/edit/event/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                "date_time": this.state.date,
+                "first_name": firstName,
+                "last_name": lastName,
+                "event_name": eventName
+            })
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        event: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
         document.getElementById('contact-info-group').disabled = true;
         document.getElementById('lead-info-group').disabled = true;
         document.getElementById('save-button-space').innerHTML = "";
@@ -46,10 +86,54 @@ export default class EventDetail extends Component {
     }
 
     delete = () => {
-        this.props.addMessage('Event has been deleted.', 'warning');
-        this.setState({
-            redirect: '/events'
-        })
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/delete/event/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    if (data.status === "deleted") {
+                        this.props.addMessage('Event has been deleted.', 'warning');
+                        this.setState({
+                            redirect: '/events'
+                        })
+                    }
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    getEvent = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/events/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        event: data,
+                        date: new Date(data.date_time),
+                        contact: data.first_name + " " + data.last_name
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
+    componentDidMount = () => {
+        this.getEvent();
     }
 
     render() {
@@ -67,8 +151,8 @@ export default class EventDetail extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">Meeting @ Jensen's</h4>
-                                <small>In 2 days</small>
+                                <h4 className="card-title">{this.state.event.event_name}</h4>
+                                {this.state.event.date_time ? <small><Moment fromNow>{new Date(this.state.event.date_time)}</Moment></small> : ""}
                             </div>
                             <div className='col-6 col-md-4 col-lg-2'>
                             <div className="btn-group">
@@ -113,12 +197,12 @@ export default class EventDetail extends Component {
                         <form>
                             <fieldset id='lead-info-group' disabled>
                             <div class="form-group">
-                                <label for="businessName">Event Name</label>
-                                <input type="text" id="businessName" class="form-control" defaultValue="Meeting @ Jensen's" />
+                                <label for="eventEventName">Event Name</label>
+                                <input type="text" id="eventEventName" class="form-control" defaultValue={this.state.event.event_name} />
                             </div>
                             <div class="form-group">
-                                <label for="address">Contact</label>
-                                <input type="text" id="address" class="form-control" defaultValue="Carl Munroe" />
+                                <label for="eventContactName">Contact</label>
+                                <input type="text" id="eventContactName" class="form-control" defaultValue={this.state.contact} />
                             </div>
                             </fieldset>
                         </form>

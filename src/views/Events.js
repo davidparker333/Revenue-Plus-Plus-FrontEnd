@@ -87,7 +87,7 @@ export default class Events extends Component {
                                     <div class="dropdown-item">
                                         <div className="custom-control custom-toggle my-2">
                                             <input type="checkbox" id="customToggle2" name="customToggle2" className="custom-control-input" onClick={(e) => this.toggle7Day(e)} />
-                                            <label className="custom-control-label" for="customToggle2" >This Week</label>
+                                            <label className="custom-control-label" htmlFor="customToggle2" >This Week</label>
                                         </div>
                                     </div>
                                 </div>
