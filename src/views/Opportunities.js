@@ -13,7 +13,7 @@ export default class Opportunities extends Component {
     }
 
     getOpportunities = () => {
-        fetch('http://localhost:5000/api/allopenopportunities', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/allopenopportunities', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -33,7 +33,7 @@ export default class Opportunities extends Component {
     }
 
     get30DayOpportunities = () => {
-        fetch('http://localhost:5000/api/openopportunitiesthismonth', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/openopportunitiesthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

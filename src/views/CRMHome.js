@@ -21,7 +21,7 @@ export default class CRMHome extends Component {
     }
 
     dashInfo = () => {
-        fetch('http://localhost:5000/api/crmhome', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/crmhome', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

@@ -57,7 +57,7 @@ export default class App extends Component {
   handleLogin = async (e) => {
     let username = e.target.username.value;
     let password = e.target.password.value;
-    await fetch('http://localhost:5000/api/login', {
+    await fetch('https://revenue-plus-plus.herokuapp.com/api/login', {
       method: 'POST',
       headers: {
         "Content-Type":"application/json",

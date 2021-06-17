@@ -38,7 +38,7 @@ export default class LeadDetail extends Component {
         let address = document.getElementById('leadDetailAddress').value;
         let status = document.getElementById('leadDetailStatus').value;
         let hot = document.getElementById('leadDetailHot').checked;
-        fetch(`http://localhost:5000/api/edit/lead/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/edit/lead/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -72,7 +72,7 @@ export default class LeadDetail extends Component {
 
     delete = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/delete/lead/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/delete/lead/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -102,7 +102,7 @@ export default class LeadDetail extends Component {
 
     getLead = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/leads/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/leads/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -124,7 +124,7 @@ export default class LeadDetail extends Component {
 
     getActivity = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/getactivity/lead/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/getactivity/lead/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

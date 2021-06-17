@@ -42,7 +42,7 @@ export default class CreateEventOpp extends Component {
             //eslint-disable-next-line
             var lastName = ""
         }
-        fetch(`http://localhost:5000/api/addevent/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/addevent/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -71,7 +71,7 @@ export default class CreateEventOpp extends Component {
 
     getOpp = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/opportunities/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/opportunities/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

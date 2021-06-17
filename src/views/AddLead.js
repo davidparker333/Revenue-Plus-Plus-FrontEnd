@@ -20,7 +20,7 @@ export default class AddLead extends Component {
         let address = document.getElementById('address').value;
         let status = document.getElementById('status').value;
         let hot = document.getElementById('hot').checked;
-        fetch('http://localhost:5000/api/newlead',{
+        fetch('https://revenue-plus-plus.herokuapp.com/api/newlead',{
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",

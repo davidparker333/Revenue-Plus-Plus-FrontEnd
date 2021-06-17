@@ -13,7 +13,7 @@ export default class OppReportClosedWon extends Component {
     }
 
     getOpps = () => {
-        fetch('http://localhost:5000/api/reports/closedwonopportunities', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedwonopportunities', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

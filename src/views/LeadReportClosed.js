@@ -13,7 +13,7 @@ export default class LeadReportClosedLost extends Component {
     }
 
     getLeads = () => {
-        fetch('http://localhost:5000/api/reports/closedleads', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

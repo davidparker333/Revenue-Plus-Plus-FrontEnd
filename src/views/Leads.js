@@ -18,7 +18,7 @@ export default class Leads extends Component {
     }
 
     allOpenLeads = () => {
-        fetch('http://localhost:5000/api/allopenleads', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/allopenleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -38,7 +38,7 @@ export default class Leads extends Component {
     }
 
     thisMonthLeads = () => {
-        fetch('http://localhost:5000/api/openleadsthismonth', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/openleadsthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -58,7 +58,7 @@ export default class Leads extends Component {
     }
 
     hotLeads = () => {
-        fetch('http://localhost:5000/api/openhotleads', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/openhotleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -78,7 +78,7 @@ export default class Leads extends Component {
     }
 
     hotLeadsThisMonth = () => {
-        fetch('http://localhost:5000/api/hotleadsthismonth', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/hotleadsthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

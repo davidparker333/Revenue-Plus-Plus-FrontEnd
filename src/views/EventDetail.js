@@ -45,7 +45,7 @@ export default class EventDetail extends Component {
             //eslint-disable-next-line
             var lastName = ""
         }
-        fetch(`http://localhost:5000/api/edit/event/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/edit/event/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -87,7 +87,7 @@ export default class EventDetail extends Component {
 
     delete = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/delete/event/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/delete/event/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type":"application/json",
@@ -111,7 +111,7 @@ export default class EventDetail extends Component {
 
     getEvent = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/events/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/events/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

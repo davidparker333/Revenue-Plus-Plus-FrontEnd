@@ -42,7 +42,7 @@ export default class LeadConvert extends Component {
             //eslint-disable-next-line
             var lastName = ""
         }
-        fetch(`http://localhost:5000/api/convert/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/convert/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -70,7 +70,7 @@ export default class LeadConvert extends Component {
 
     getLead = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/leads/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/leads/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

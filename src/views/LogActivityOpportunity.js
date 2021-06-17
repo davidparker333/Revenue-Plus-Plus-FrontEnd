@@ -26,7 +26,7 @@ export default class LogActivityOpportunity extends Component {
         let id = this.props.match.params.id;
         let type = document.getElementById('logActivityOppType').value;
         let notes = document.getElementById('oppActivityNotes').value;
-        fetch(`http://localhost:5000/api/newactivity/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/newactivity/opportunity/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -53,7 +53,7 @@ export default class LogActivityOpportunity extends Component {
 
     getLead = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/opportunities/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/opportunities/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

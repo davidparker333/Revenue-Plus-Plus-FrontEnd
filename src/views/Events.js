@@ -13,7 +13,7 @@ export default class Events extends Component {
     }
 
     getEvents = () => {
-        fetch('http://localhost:5000/api/allevents', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/allevents', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -33,7 +33,7 @@ export default class Events extends Component {
     }
 
     get7DayEvents = () => {
-        fetch('http://localhost:5000/api/eventsthisweek', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/eventsthisweek', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",

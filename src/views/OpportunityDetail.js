@@ -103,7 +103,7 @@ export default class OpportunityDetail extends Component {
 
     meetingHeld = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/edit/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/edit/opportunity/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -125,7 +125,7 @@ export default class OpportunityDetail extends Component {
 
     getOpp = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/opportunities/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/opportunities/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -148,7 +148,7 @@ export default class OpportunityDetail extends Component {
 
     getActivity = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/getactivity/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/getactivity/opportunity/${id}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -169,7 +169,7 @@ export default class OpportunityDetail extends Component {
 
     closedWon = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/close/won/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/close/won/opportunity/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",
@@ -192,7 +192,7 @@ export default class OpportunityDetail extends Component {
 
     closedLost = () => {
         let id = this.props.match.params.id;
-        fetch(`http://localhost:5000/api/close/lost/opportunity/${id}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/close/lost/opportunity/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type":"application/json",

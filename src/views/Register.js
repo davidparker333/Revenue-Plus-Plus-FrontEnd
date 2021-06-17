@@ -45,7 +45,7 @@ export default class Register extends Component {
         let password = e.target.password.value;
         let confirmPassword = e.target.confirmpassword.value;
         if (this.validateForm(email, username, password, confirmPassword)) {
-            fetch('http://localhost:5000/api/register', {
+            fetch('https://revenue-plus-plus.herokuapp.com/api/register', {
                 method: 'POST',
                 headers: {
                     "Content-Type":"application/json",
