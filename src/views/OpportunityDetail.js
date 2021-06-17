@@ -12,7 +12,8 @@ export default class OpportunityDetail extends Component {
             progress: {"width": "25%"},
             redirect: null,
             opportunity: "",
-            value: ""
+            value: "",
+            activity: []
         }
     }
 
@@ -145,6 +146,27 @@ export default class OpportunityDetail extends Component {
             })
     }
 
+    getActivity = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/getactivity/opportunity/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        activity: data
+                    })
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
     closedWon = () => {
         let id = this.props.match.params.id;
         fetch(`http://localhost:5000/api/close/won/opportunity/${id}`, {
@@ -167,8 +189,31 @@ export default class OpportunityDetail extends Component {
             })
     }
 
+    closedLost = () => {
+        let id = this.props.match.params.id;
+        fetch(`http://localhost:5000/api/close/lost/opportunity/${id}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json",
+                "Accept":"*/*",
+                "Authorization": "Bearer " + localStorage.getItem('token')
+            }
+            }).then(res => res.json())
+                .then(data => {
+                    this.setState({
+                        opportunity: data
+                    })
+                    this.setProgressBar(data.status);
+                })
+            .catch(e => {
+                console.log(e)
+                this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+    }
+
     componentDidMount = () => {
         this.getOpp();
+        this.getActivity();
     }
 
     render() {
@@ -198,7 +243,7 @@ export default class OpportunityDetail extends Component {
                                     <button className="dropdown-item" onClick={(e) => this.edit(e)}>Edit</button>
                                     <button className="dropdown-item" onClick={this.meetingHeld}>Meeting Held</button>
                                     <button className="dropdown-item"  onClick={this.closedWon}>Closed Won</button>
-                                    <button className="dropdown-item" onClick={this.delete}>Closed Lost</button>
+                                    <button className="dropdown-item" onClick={this.closedLost}>Closed Lost</button>
                                     <Link className="dropdown-item" to={`/addevent/${this.props.match.params.id}`}>Create Event</Link>
                                 </div>
                             </div>
@@ -313,10 +358,10 @@ export default class OpportunityDetail extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <Activity />
+                                {this.state.activity.map((activity, index) => <Activity key={index} type={activity.type} date={activity.date} notes={activity.notes} />)}
                             </tbody>
                             </table>
-                            <Link to="/logactivity/opportunity/1" className="btn btn-primary">Log Activity</Link>
+                            <Link to={`/logactivity/opportunity/${this.props.match.params.id}`} className="btn btn-primary">Log Activity</Link>
                         </div>
                     </div>
                     </div>

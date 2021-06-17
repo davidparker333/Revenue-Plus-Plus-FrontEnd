@@ -40,8 +40,7 @@ export default class LogActivity extends Component {
                 "notes": notes
             })
             }).then(res => res.json())
-                .then(data => {
-                    console.log(data)
+                .then(() => {
                     this.props.addMessage("Activity Saved", 'success');
                     this.setState({
                         redirect: `/leads/${this.props.match.params.id}`

@@ -13,7 +13,9 @@ export default class CRMHome extends Component {
 
         this.state = {
             leads: [],
-            opportunities: []
+            opportunities: [],
+            closed_opps: [],
+            value: 0
         }
     }
 
@@ -29,7 +31,15 @@ export default class CRMHome extends Component {
                 .then(data => {
                     this.setState({
                         leads: data[0],
-                        opportunities: data[1]
+                        opportunities: data[1],
+                        closed_opps: data[2]
+                    })
+                    var value = 0
+                    for (let i=0; i<data[2].length; i++) {
+                        value = value + data[2][i].value
+                    }
+                    this.setState({
+                        value: value
                     })
                 })
             .catch(e => {
@@ -103,10 +113,10 @@ export default class CRMHome extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <ClosedOpportunity />
+                                        {this.state.closed_opps.map((opp, index) => <ClosedOpportunity key={index} value={opp.value} company={opp.business_name} id={opp.id} />)}
                                     </tbody>
                                     <tfoot>
-                                        <ClosedOpportunityFooter />
+                                        <ClosedOpportunityFooter total={this.state.value} />
                                     </tfoot>
                                 </table>
                                 <Link to="/reports" className="btn btn-primary">Go to Reports</Link>
