@@ -18,14 +18,14 @@ export default class Reports extends Component {
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <Link to='/reports/leads/closed'><h6>All Closed Leads</h6></Link>
+                                        <Link to='/reports/leads/closed'><h6>Closed Lost Leads</h6></Link>
                                     </div>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>Filter by Date</h6>
+                                        <Link to='/reports/leads/converted'><h6>Converted Leads</h6></Link>
                                     </div>
                                 </div>
                             </div>
@@ -64,21 +64,21 @@ export default class Reports extends Component {
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>All Closed Lost</h6>
+                                        <Link to='/reports/opportunities/closedlost'><h6>All Closed Lost</h6></Link>
                                     </div>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>High Value</h6>
+                                        <Link to='/reports/opportunities/highvalue'><h6>High Value</h6></Link>
                                     </div>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>Low Value</h6>
+                                    <Link to='/reports/opportunities/lowvalue'><h6>Low Value</h6></Link>
                                     </div>
                                 </div>
                             </div>

@@ -27,6 +27,10 @@ import SearchResults from './views/SearchResults';
 import LeadReportClosedLost from './views/LeadReportClosed';
 import OppReportClosedWon from './views/OppReportClosedWon';
 import Features from './views/Features';
+import OppReportClosedLost from './views/OppReportClosedLost';
+import OppReportHighValue from './views/OppReportHighValue';
+import OppsReportLowValue from './views/OppsReportLowValue';
+import LeadReportConverted from './views/LeadReportConverted';
 
 export default class App extends Component {
   constructor(){
@@ -136,7 +140,11 @@ export default class App extends Component {
           <Route exact path='/addevent/:id' render={({match}) => <CreateEventOpp match={match} addMessage={this.addMessage} isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/reports' render={() => <Reports isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/reports/leads/closed' render={() => <LeadReportClosedLost isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/leads/converted' render={() => <LeadReportConverted isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/reports/opportunities/closedwon' render={() => <OppReportClosedWon isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/opportunities/closedlost' render={() => <OppReportClosedLost isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/opportunities/highvalue' render={() => <OppReportHighValue isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/opportunities/lowvalue' render={() => <OppsReportLowValue isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/search/:search' render={(match) => <SearchResults isLoggedIn={this.state.isLoggedIn} match={match} addMessage={this.addMessage} />} />
         </Switch>
         </Container>
