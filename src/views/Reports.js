@@ -32,14 +32,14 @@ export default class Reports extends Component {
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>Closed Hot Leads</h6>
+                                        <Link to='/reports/leads/closedhot'><h6>Closed Hot Leads</h6></Link>
                                     </div>
                                 </div>
                             </div>
                             <div className='col-12 col-md-3'>
                                 <div class="card mt-2">
                                     <div class="card-body">
-                                        <h6>Quantity by Date</h6>
+                                        <Link to='/reports/leads/quantity'><h6>Quantity by Date</h6></Link>
                                     </div>
                                 </div>
                             </div>

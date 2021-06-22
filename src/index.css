@@ -82,3 +82,7 @@ a:hover {
 .feature-img {
   max-width: 100%;
 }
+
+.submit-btn {
+  width: 100%
+}
