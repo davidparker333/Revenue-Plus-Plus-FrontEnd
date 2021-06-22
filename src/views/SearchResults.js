@@ -20,7 +20,6 @@ export default class SearchResults extends Component {
         this.setState({
             search: params
         })
-        console.log(params)
         fetch(`https://revenue-plus-plus.herokuapp.com/api/search?search=${params}`, {
             method: 'GET',
             headers: {

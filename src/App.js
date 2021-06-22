@@ -31,6 +31,8 @@ import OppReportClosedLost from './views/OppReportClosedLost';
 import OppReportHighValue from './views/OppReportHighValue';
 import OppsReportLowValue from './views/OppsReportLowValue';
 import LeadReportConverted from './views/LeadReportConverted';
+import LeadReportClosedHot from './views/LeadReportClosedHot';
+import LeadReportQuantityDate from './views/LeadReportQuantityDate';
 
 export default class App extends Component {
   constructor(){
@@ -141,6 +143,8 @@ export default class App extends Component {
           <Route exact path='/reports' render={() => <Reports isLoggedIn={this.state.isLoggedIn} />} />
           <Route exact path='/reports/leads/closed' render={() => <LeadReportClosedLost isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/reports/leads/converted' render={() => <LeadReportConverted isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/leads/closedhot' render={() => <LeadReportClosedHot isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/reports/leads/quantity' render={() => <LeadReportQuantityDate isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/reports/opportunities/closedwon' render={() => <OppReportClosedWon isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/reports/opportunities/closedlost' render={() => <OppReportClosedLost isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/reports/opportunities/highvalue' render={() => <OppReportHighValue isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
