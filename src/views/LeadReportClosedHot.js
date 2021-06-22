@@ -13,7 +13,7 @@ export default class LeadReportClosedHot extends Component {
     }
 
     getLeads = () => {
-        fetch('http://localhost:5000/api/reports/closedhotleads', {
+        fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedhotleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -48,7 +48,7 @@ export default class LeadReportClosedHot extends Component {
                     <div className="card-body">
                         <Row className='mb-2'>
                             <div className='col-6 col-md-8 col-lg-10'>
-                                <h4 className="card-title">Closed Leads</h4>
+                                <h4 className="card-title">Closed Hot Leads</h4>
                             </div>
                         </Row>
                         <table className="table">

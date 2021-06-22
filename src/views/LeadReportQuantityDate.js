@@ -38,7 +38,7 @@ export default class LeadReportQuantityDate extends Component {
         e.preventDefault();
         let startDate = this.state.startDate.toString().split(" ").slice(0,4).join(" ");
         let endDate = this.state.endDate.toString().split(" ").slice(0,4).join(" ");
-        fetch(`http://localhost:5000/api/reports/leadquantity?start_date=${startDate}&end_date=${endDate}`, {
+        fetch(`https://revenue-plus-plus.herokuapp.com/api/reports/leadquantity?start_date=${startDate}&end_date=${endDate}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
