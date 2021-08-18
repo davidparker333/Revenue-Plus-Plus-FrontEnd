@@ -13,11 +13,13 @@ export default class Login extends Component {
         }
     }
 
-    loginHelper = (e) => {
+    loginHelper = async (e) => {
         e.preventDefault();
+        this.props.isLoading();
         if (this.validateForm(e)) {
-            this.props.handleLogin(e)
+            await this.props.handleLogin(e)
         }
+        this.props.isNotLoading();
     }
 
     render() {

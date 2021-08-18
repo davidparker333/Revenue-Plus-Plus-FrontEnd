@@ -33,6 +33,7 @@ import OppsReportLowValue from './views/OppsReportLowValue';
 import LeadReportConverted from './views/LeadReportConverted';
 import LeadReportClosedHot from './views/LeadReportClosedHot';
 import LeadReportQuantityDate from './views/LeadReportQuantityDate';
+import Load from './components/Load';
 
 export default class App extends Component {
   constructor(){
@@ -42,7 +43,8 @@ export default class App extends Component {
       message: null,
       category: null,
       isLoggedIn: localStorage.getItem('token') !== null,
-      tokenExpiration: null
+      tokenExpiration: null,
+      loading: false
     }
   }
 
@@ -58,6 +60,27 @@ export default class App extends Component {
       message: null,
       category: null
     })
+  }
+
+  isLoading = () => {
+    this.setState({
+      loading: true
+    })
+  }
+
+  isNotLoading = () => {
+    this.setState({
+      loading: false
+    })
+  }
+
+  componentDidUpdate = () => {
+    let spinner = document.getElementById('load-spinner');
+    if (this.state.loading) {
+      spinner.style.display = "flex";
+    } else {
+      spinner.style.display = "none";
+    }
   }
 
   handleLogin = async (e) => {
@@ -119,12 +142,13 @@ export default class App extends Component {
       <div>
         {this.state.isLoggedIn ? (<NavbarLoggedIn handleLogout={this.handleLogout} />) : (<Navbar />)}
         <Container>
+          <Load />
         {this.state.message ? (<Message message={this.state.message} category={this.state.category} clearMessage={this.clearMessage} />) : (<div></div>)}
         {this.state.isLoggedIn ? (<Searchbar/>) : (<div></div>)}
         <Switch>
           <Route exact path="/" render={() => <Home />} />
           <Route exact path="/features" render={() => <Features />} />
-          <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
+          <Route exact path='/login' render={() => <Login handleLogin={this.handleLogin} isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} isLoading={this.isLoading} isNotLoading={this.isNotLoading} />} />
           <Route exact path='/register' render={() => <Register addMessage={this.addMessage} />} />
           <Route exact path='/home' render={() => <CRMHome isLoggedIn={this.state.isLoggedIn} addMessage={this.addMessage} />} />
           <Route exact path='/leads' render={() => <Leads addMessage={this.addMessage} sessionTimeout={this.sessionTimeout} isLoggedIn={this.state.isLoggedIn} />} />

@@ -86,3 +86,14 @@ a:hover {
 .submit-btn {
   width: 100%
 }
+
+.loading-container {
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
