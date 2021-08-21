@@ -129,6 +129,7 @@ export default class LeadReportQuantityDate extends Component {
                                 {this.state.leads.map((lead, index) => <Lead key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} hot={lead.hot} id={lead.id} />)}
                             </tbody>
                         </table>
+                        {!this.state.leads.length ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
                     </div>
                     </div>
                 </div>
