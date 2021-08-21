@@ -107,6 +107,7 @@ export default class Opportunities extends Component {
                                 {this.state.opportunities.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                             </tbody>
                         </table>
+                        {!this.state.opportunities.length ? <div className="text-center my-2"><h5>No Open Opportunities</h5></div> : ''}
                     </div>
                     </div>
                 </div>

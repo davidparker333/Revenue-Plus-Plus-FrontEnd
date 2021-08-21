@@ -85,6 +85,7 @@ export default class OppReportHighValue extends Component {
                                 {this.state.opps.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                             </tbody>
                         </table>
+                        {!this.state.opps.length ? <div className="text-center my-2"><h5>No Opportunities</h5></div> : ''}
                     </div>
                     </div>
                 </div>

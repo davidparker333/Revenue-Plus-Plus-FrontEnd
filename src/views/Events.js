@@ -107,6 +107,7 @@ export default class Events extends Component {
                                 {this.state.events.map((event, index) => <EventPage key={index} date={new Date(event.date_time).toString()} meetingName={event.event_name} contact={event.first_name + " " + event.last_name} id={event.id} />)}
                             </tbody>
                         </table>
+                        {!this.state.events.length ? <div className="text-center my-2"><h5>No Events</h5></div> : ''}
                     </div>
                     </div>
                 </div>
