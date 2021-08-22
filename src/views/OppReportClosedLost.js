@@ -8,12 +8,16 @@ export default class OppReportClosedLost extends Component {
         super();
 
         this.state = {
-            opps: []
+            opps: [],
+            loading: false
         }
     }
 
-    getOpps = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedlostopportunities', {
+    getOpps = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedlostopportunities', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -29,6 +33,11 @@ export default class OppReportClosedLost extends Component {
         .catch(e => {
             console.log(e)
             this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+        .finally(() => {
+            this.setState({
+                loading: false
+            })
         })
     }
 
@@ -64,7 +73,7 @@ export default class OppReportClosedLost extends Component {
                                 {this.state.opps.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                             </tbody>
                         </table>
-                        {!this.state.opps.length ? <div className="text-center my-2"><h5>No Opportunities</h5></div> : ''}
+                        {!this.state.opps.length && !this.state.loading ? <div className="text-center my-2"><h5>No Opportunities</h5></div> : ''}
                     </div>
                     </div>
                 </div>

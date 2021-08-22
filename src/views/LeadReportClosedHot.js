@@ -8,12 +8,16 @@ export default class LeadReportClosedHot extends Component {
         super();
 
         this.state = {
-            leads: []
+            leads: [],
+            loading: false
         }
     }
 
-    getLeads = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedhotleads', {
+    getLeads = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/reports/closedhotleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -29,6 +33,11 @@ export default class LeadReportClosedHot extends Component {
         .catch(e => {
             console.log(e)
             this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+        .finally(() => {
+            this.setState({
+                loading: false
+            })
         })
     }
 
@@ -65,7 +74,7 @@ export default class LeadReportClosedHot extends Component {
                                 {this.state.leads.map((lead, index) => <Lead key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} hot={lead.hot} id={lead.id} />)}
                             </tbody>
                         </table>
-                        {!this.state.leads.length ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
+                        {!this.state.leads.length && !this.state.loading ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
                     </div>
                     </div>
                 </div>

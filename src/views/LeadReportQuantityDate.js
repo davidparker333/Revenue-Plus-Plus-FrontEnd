@@ -14,7 +14,8 @@ export default class LeadReportQuantityDate extends Component {
             startDate: "",
             endDate: "",
             leads: [],
-            endDateDisplay: ""
+            endDateDisplay: "",
+            loading: false
         }
     }
 
@@ -34,11 +35,14 @@ export default class LeadReportQuantityDate extends Component {
         })
     }
 
-    getLeads = (e) => {
+    getLeads = async (e) => {
+        this.setState({
+            loading: true
+        })
         e.preventDefault();
         let startDate = this.state.startDate.toString().split(" ").slice(0,4).join(" ");
         let endDate = this.state.endDate.toString().split(" ").slice(0,4).join(" ");
-        fetch(`https://revenue-plus-plus.herokuapp.com/api/reports/leadquantity?start_date=${startDate}&end_date=${endDate}`, {
+        await fetch(`https://revenue-plus-plus.herokuapp.com/api/reports/leadquantity?start_date=${startDate}&end_date=${endDate}`, {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -55,6 +59,11 @@ export default class LeadReportQuantityDate extends Component {
         .catch(e => {
             console.log(e)
             this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+        .finally(() => {
+            this.setState({
+                loading: false
+            })
         })
     }
 
@@ -129,7 +138,7 @@ export default class LeadReportQuantityDate extends Component {
                                 {this.state.leads.map((lead, index) => <Lead key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} hot={lead.hot} id={lead.id} />)}
                             </tbody>
                         </table>
-                        {!this.state.leads.length ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
+                        {!this.state.leads.length && !this.state.loading ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
                     </div>
                     </div>
                 </div>
