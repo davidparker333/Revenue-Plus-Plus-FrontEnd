@@ -8,12 +8,16 @@ export default class Opportunities extends Component {
         super();
 
         this.state = {
-            opportunities: []
+            opportunities: [],
+            loading: false
         }
     }
 
-    getOpportunities = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/allopenopportunities', {
+    getOpportunities = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/allopenopportunities', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -30,10 +34,15 @@ export default class Opportunities extends Component {
             console.log(e)
             this.props.addMessage("Something doesn't look right. Please try again", 'danger')
         })
+        .finally(() => {
+            this.setState({
+                loading: false
+            })
+        })
     }
 
-    get30DayOpportunities = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/openopportunitiesthismonth', {
+    get30DayOpportunities = async () => {
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/openopportunitiesthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -49,6 +58,11 @@ export default class Opportunities extends Component {
         .catch(e => {
             console.log(e)
             this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+        })
+        .finally(() => {
+            this.setState({
+                loading: false
+            })
         })
     }
 
@@ -107,7 +121,7 @@ export default class Opportunities extends Component {
                                 {this.state.opportunities.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                             </tbody>
                         </table>
-                        {!this.state.opportunities.length ? <div className="text-center my-2"><h5>No Open Opportunities</h5></div> : ''}
+                        {!this.state.opportunities.length && !this.state.loading ? <div className="text-center my-2"><h5>No Open Opportunities</h5></div> : ''}
                     </div>
                     </div>
                 </div>

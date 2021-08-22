@@ -8,12 +8,16 @@ export default class Events extends Component {
         super();
 
         this.state = {
-            events: []
+            events: [],
+            loading: false
         }
     }
 
-    getEvents = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/allevents', {
+    getEvents = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/allevents', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -30,10 +34,18 @@ export default class Events extends Component {
                 console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
             })
+            .finally(() => {
+                this.setState({
+                    loading: false
+                })
+            })
     }
 
-    get7DayEvents = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/eventsthisweek', {
+    get7DayEvents = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/eventsthisweek', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -49,6 +61,11 @@ export default class Events extends Component {
             .catch(e => {
                 console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+            .finally(() => {
+                this.setState({
+                    loading: false
+                })
             })
     }
 
@@ -107,7 +124,7 @@ export default class Events extends Component {
                                 {this.state.events.map((event, index) => <EventPage key={index} date={new Date(event.date_time).toString()} meetingName={event.event_name} contact={event.first_name + " " + event.last_name} id={event.id} />)}
                             </tbody>
                         </table>
-                        {!this.state.events.length ? <div className="text-center my-2"><h5>No Events</h5></div> : ''}
+                        {!this.state.events.length && !this.state.loading ? <div className="text-center my-2"><h5>No Events</h5></div> : ''}
                     </div>
                     </div>
                 </div>

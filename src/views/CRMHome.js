@@ -16,12 +16,13 @@ export default class CRMHome extends Component {
             opportunities: [],
             closed_opps: [],
             value: 0,
-            events: []
+            events: [],
+            loading: false
         }
     }
 
-    dashInfo = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/crmhome', {
+    dashInfo = async () => {
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/crmhome', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -50,8 +51,14 @@ export default class CRMHome extends Component {
             })
     }
 
-    componentDidMount = () => {
-        this.dashInfo();
+    componentDidMount = async () => {
+        this.setState({
+            loading: true
+        });
+        await this.dashInfo();
+        this.setState({
+            loading: false
+        });
     }
 
     render() {
@@ -78,7 +85,7 @@ export default class CRMHome extends Component {
                                         {this.state.leads.map((lead, index) => <LeadPreview key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} id={lead.id} />)}
                                     </tbody>
                                 </table>
-                                {!this.state.leads.length ? <div className="text-center my-2"><h6>No Leads</h6></div> : ''}
+                                {!this.state.leads.length && !this.state.loading ? <div className="text-center my-2"><h6>No Leads</h6></div> : ''}
                                 <Link to="/leads" className="btn btn-primary">Go to Leads</Link>
                             </div>
                         </div>
@@ -98,7 +105,7 @@ export default class CRMHome extends Component {
                                         {this.state.events.map((event, index) => <Event key={index} time={event.date_time} eventName={event.event_name} id={event.id} />)}
                                     </tbody>
                                 </table>
-                                {!this.state.events.length ? <div className="text-center my-2"><h6>No Events</h6></div> : ''}
+                                {!this.state.events.length && !this.state.loading ? <div className="text-center my-2"><h6>No Events</h6></div> : ''}
                                 <Link to="/events" className="btn btn-primary">Go to Events</Link>
                             </div>
                         </div>
@@ -119,7 +126,7 @@ export default class CRMHome extends Component {
                                     <tbody>
                                         {this.state.closed_opps.map((opp, index) => <ClosedOpportunity key={index} value={opp.value} company={opp.business_name} id={opp.id} />)}
                                     </tbody>
-                                    {!this.state.closed_opps.length ? <tr><td colspan="2"><div className="text-center"><h6 className="mb-0">No Closed Opportunities</h6></div></td></tr> : ''}
+                                    {!this.state.closed_opps.length && !this.state.loading ? <tr><td colspan="2"><div className="text-center"><h6 className="mb-0">No Closed Opportunities</h6></div></td></tr> : ''}
                                     <tfoot>
                                         <ClosedOpportunityFooter total={this.state.value} />
                                     </tfoot>
@@ -145,7 +152,7 @@ export default class CRMHome extends Component {
                                         {this.state.opportunities.map((opp, index) => <Opportunity key={index} firstName={opp.first_name} lastName={opp.last_name} value={opp.value} company={opp.business_name} id={opp.id} status={opp.status} />)}
                                     </tbody>
                                 </table>
-                                {!this.state.opportunities.length ? <div className="text-center my-2"><h6>No Open Opportunities</h6></div> : ''}
+                                {!this.state.opportunities.length && !this.state.loading ? <div className="text-center my-2"><h6>No Open Opportunities</h6></div> : ''}
                                 <Link to="/opportunities" className="btn btn-primary">Go to Opportunities</Link>
                             </div>
                         </div>

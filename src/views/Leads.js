@@ -9,7 +9,8 @@ export default class Leads extends Component {
 
         this.state = {
             redirect: null,
-            leads: []
+            leads: [],
+            loading: false
         }
     }
 
@@ -17,8 +18,8 @@ export default class Leads extends Component {
         this.allOpenLeads()
     }
 
-    allOpenLeads = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/allopenleads', {
+    allOpenLeads = async () => {
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/allopenleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -37,8 +38,11 @@ export default class Leads extends Component {
         })
     }
 
-    thisMonthLeads = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/openleadsthismonth', {
+    thisMonthLeads = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/openleadsthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -55,10 +59,18 @@ export default class Leads extends Component {
                 console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
             })
+            .finally(() => {
+                this.setState({
+                    loading: false
+                })
+            })
     }
 
-    hotLeads = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/openhotleads', {
+    hotLeads = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/openhotleads', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -75,10 +87,18 @@ export default class Leads extends Component {
                 console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
             })
+            .finally(() => {
+                this.setState({
+                    loading: false
+                })
+            })
     }
 
-    hotLeadsThisMonth = () => {
-        fetch('https://revenue-plus-plus.herokuapp.com/api/hotleadsthismonth', {
+    hotLeadsThisMonth = async () => {
+        this.setState({
+            loading: true
+        })
+        await fetch('https://revenue-plus-plus.herokuapp.com/api/hotleadsthismonth', {
             method: 'GET',
             headers: {
                 "Content-Type":"application/json",
@@ -94,6 +114,11 @@ export default class Leads extends Component {
             .catch(e => {
                 console.log(e)
                 this.props.addMessage("Something doesn't look right. Please try again", 'danger')
+            })
+            .finally(() => {
+                this.setState({
+                    loading: false
+                })
             })
     }
 
@@ -185,7 +210,7 @@ export default class Leads extends Component {
                                 {this.state.leads.map((lead, index) => <Lead key={index} firstName={lead.first_name} lastName={lead.last_name} phoneNumber={lead.phone_number} company={lead.business_name} hot={lead.hot} id={lead.id} />)}
                             </tbody>
                         </table>
-                        {!this.state.leads.length ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
+                        {!this.state.leads.length && !this.state.loading ? <div className="text-center my-2"><h5>No Leads</h5></div> : ''}
                     </div>
                     </div>
                 </div>
