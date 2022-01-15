@@ -12,7 +12,7 @@ export default class AddLead extends Component {
     };
   }
 
-  addLead = () => {
+  addLead = async () => {
     let firstName = document.getElementById("firstName").value;
     let lastName = document.getElementById("lastName").value;
     let phoneNumber = document.getElementById("phoneNumber").value;
@@ -31,7 +31,7 @@ export default class AddLead extends Component {
       status: status,
       hot: hot,
     };
-    api
+    await api
       .post("/newlead", body)
       .then(() => {
         this.props.addMessage("Lead Added Successfully", "success");
