@@ -12,7 +12,7 @@ const api = {
     }).then(this.handleResponse);
   },
 
-  async post(endpoint, body) {
+  async post(endpoint, body = {}) {
     return await fetch(`${this.apiPrefix}${endpoint}`, {
       method: "POST",
       headers: {
@@ -24,7 +24,7 @@ const api = {
     }).then(this.handleResponse);
   },
 
-  async put(endpoint, body) {
+  async put(endpoint, body = {}) {
     return await fetch(`${this.apiPrefix}${endpoint}`, {
       method: "PUT",
       headers: {
@@ -33,6 +33,28 @@ const api = {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
       body: JSON.stringify(body),
+    }).then(this.handleResponse);
+  },
+
+  async _delete(endpoint) {
+    return await fetch(`${this.apiPrefix}${endpoint}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    }).then(this.handleResponse);
+  },
+
+  async login(username, password) {
+    return await fetch("https://revenue-plus-plus.herokuapp.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        Authorization: "Basic " + btoa(`${username}:${password}`),
+      },
     }).then(this.handleResponse);
   },
 
