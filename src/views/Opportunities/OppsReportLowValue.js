@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
-import Opportunity from "../components/Opportunity";
+import Opportunity from "../../components/Opportunity";
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class OppsReportLowValue extends Component {
   constructor() {
@@ -37,7 +37,6 @@ export default class OppsReportLowValue extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

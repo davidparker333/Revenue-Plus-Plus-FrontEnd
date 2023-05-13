@@ -3,8 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Lead from "../components/Lead";
-import api from "../lib/api";
+import Lead from "../../components/Lead";
+import api from "../../lib/api";
 
 export default class LeadReportQuantityDate extends Component {
   constructor() {
@@ -60,7 +60,6 @@ export default class LeadReportQuantityDate extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

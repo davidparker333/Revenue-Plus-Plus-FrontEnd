@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
-import Lead from "../components/Lead";
-import api from "../lib/api";
+import Lead from "../../components/Lead";
+import api from "../../lib/api";
 
-export default class LeadReportClosedLost extends Component {
+export default class LeadReportClosedHot extends Component {
   constructor() {
     super();
 
@@ -19,14 +19,13 @@ export default class LeadReportClosedLost extends Component {
       loading: true,
     });
     await api
-      .get("/reports/closedleads")
+      .get("/reports/closedhotleads")
       .then((data) => {
         this.setState({
           leads: data,
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -55,7 +54,7 @@ export default class LeadReportClosedLost extends Component {
               <div className="card-body">
                 <Row className="mb-2">
                   <div className="col-6 col-md-8 col-lg-10">
-                    <h4 className="card-title">Closed Leads</h4>
+                    <h4 className="card-title">Closed Hot Leads</h4>
                   </div>
                 </Row>
                 <table className="table">

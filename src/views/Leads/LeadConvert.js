@@ -3,16 +3,16 @@ import { Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from "react-router-dom";
-import api from "../lib/api";
+import api from "../../lib/api";
 
-export default class CreateEventOpp extends Component {
+export default class LeadConvert extends Component {
   constructor() {
     super();
 
     this.state = {
       date: new Date(),
       redirect: null,
-      opportunity: "",
+      lead: "",
       contact: "",
       eventName: "",
     };
@@ -30,23 +30,25 @@ export default class CreateEventOpp extends Component {
 
   save = async () => {
     let id = this.props.match.params.id;
-    let eventName = document.getElementById("oppEventName").value;
+    let eventName = document.getElementById("convertEventName").value;
     if (
-      document.getElementById("oppContactName").value.split(" ")[0] !== null
+      document.getElementById("convertContactName").value.split(" ")[0] !== null
     ) {
       var firstName = document
-        .getElementById("oppContactName")
+        .getElementById("convertContactName")
         .value.split(" ")[0];
     } else {
       //eslint-disable-next-line
-      var firstName = document.getElementById("oppContactName").value;
+      var firstName = document.getElementById("convertContactName").value;
     }
     if (
-      document.getElementById("oppContactName").value.split(" ").slice(1) !==
-      null
+      document
+        .getElementById("convertContactName")
+        .value.split(" ")
+        .slice(1) !== null
     ) {
       var lastName = document
-        .getElementById("oppContactName")
+        .getElementById("convertContactName")
         .value.split(" ")
         .slice(1)
         .join(" ")
@@ -55,24 +57,21 @@ export default class CreateEventOpp extends Component {
       //eslint-disable-next-line
       var lastName = "";
     }
-
     const body = {
       event_name: eventName,
       date_time: this.state.date,
       first_name: firstName,
       last_name: lastName,
-      opportunity_id: this.props.match.params.id,
     };
     await api
-      .post(`/addevent/${id}`, body)
-      .then(() => {
-        this.props.addMessage("Event Created Successfully", "success");
+      .post(`/convert/${id}`, body)
+      .then((data) => {
+        this.props.addMessage("Lead Converted Successfully", "success");
         this.setState({
-          redirect: `/opportunities/${this.props.match.params.id}`,
+          redirect: `/opportunities/${data[0].id}`,
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -80,13 +79,13 @@ export default class CreateEventOpp extends Component {
       });
   };
 
-  getOpp = async () => {
+  getLead = async () => {
     let id = this.props.match.params.id;
     await api
-      .get(`/opportunities/${id}`)
+      .get(`/leads/${id}`)
       .then((data) => {
         this.setState({
-          opportunity: data,
+          lead: data,
         });
         let name = data.first_name + " " + data.last_name;
         this.setState({
@@ -98,7 +97,6 @@ export default class CreateEventOpp extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -107,7 +105,7 @@ export default class CreateEventOpp extends Component {
   };
 
   componentDidMount = () => {
-    this.getOpp();
+    this.getLead();
   };
 
   render() {
@@ -125,12 +123,16 @@ export default class CreateEventOpp extends Component {
               <div className="card-body">
                 <Row className="mb-2">
                   <div className="col-6 col-md-8 col-lg-10">
-                    <h4 className="card-title">New Event</h4>
-                    <small>{this.state.opportunity.business_name}</small>
+                    <h4 className="card-title">Convert Lead</h4>
+                    {this.state.lead.business_name ? (
+                      <small>{this.state.lead.business_name}</small>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="col-6 col-md-4 col-lg-2">
                     <button className="btn btn-primary" onClick={this.save}>
-                      Create Event
+                      Create Opportunity
                     </button>
                   </div>
                 </Row>
@@ -142,26 +144,25 @@ export default class CreateEventOpp extends Component {
           <div className="col-12 col-md-6 mb-2">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Event Time</h5>
+                <h5 class="card-title">Meeting Time</h5>
                 <form>
                   <fieldset id="contact-info-group">
                     <div class="form-group">
-                      <label for="oppEventDate">Date</label>
+                      <label for="firstName">Date</label>
                       <br />
                       <DatePicker
                         selected={this.state.date}
                         className="form-control date-picker"
-                        id="oppEventDate"
+                        id="event-date-picker"
                         dateFormat="MM/dd/yyyy"
                         onChange={(date) => this.setDateTime(date)}
                       />
                     </div>
                     <div class="form-group">
-                      <label for="oppEventTime">Time</label>
+                      <label for="lastName">Time</label>
                       <DatePicker
                         selected={this.state.date}
                         className="form-control"
-                        id="oppEventTime"
                         showTimeSelect
                         showTimeSelectOnly
                         timeIntervals={15}
@@ -178,23 +179,23 @@ export default class CreateEventOpp extends Component {
           <div className="col-12 col-md-6 mb-2">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Event Details</h5>
+                <h5 class="card-title">Meeting Details</h5>
                 <form>
                   <fieldset id="lead-info-group">
                     <div class="form-group">
-                      <label for="oppEventName">Event Name</label>
+                      <label for="convertEventName">Event Name</label>
                       <input
                         type="text"
-                        id="oppEventName"
+                        id="convertEventName"
                         class="form-control"
                         defaultValue={this.state.eventName}
                       />
                     </div>
                     <div class="form-group">
-                      <label for="oppContactName">Contact</label>
+                      <label for="convertContactName">Contact</label>
                       <input
                         type="text"
-                        id="oppContactName"
+                        id="convertContactName"
                         class="form-control"
                         defaultValue={this.state.contact}
                       />

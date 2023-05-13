@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
-import Opportunity from "../components/Opportunity";
-import api from "../lib/api";
+import Opportunity from "../../components/Opportunity";
+import api from "../../lib/api";
 
-export default class OppReportClosedWon extends Component {
+export default class OppReportClosedLost extends Component {
   constructor() {
     super();
 
@@ -19,14 +19,13 @@ export default class OppReportClosedWon extends Component {
       loading: true,
     });
     await api
-      .get("/reports/closedwonopportunities")
+      .get("/reports/closedlostopportunities")
       .then((data) => {
         this.setState({
           opps: data,
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -55,7 +54,7 @@ export default class OppReportClosedWon extends Component {
               <div className="card-body">
                 <Row className="mb-2">
                   <div className="col-6 col-md-8 col-lg-10">
-                    <h4 className="card-title">Closed Won Opportunities</h4>
+                    <h4 className="card-title">Closed Lost Opportunities</h4>
                   </div>
                 </Row>
                 <table className="table">

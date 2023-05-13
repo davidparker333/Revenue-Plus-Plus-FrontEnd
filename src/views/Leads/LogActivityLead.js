@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from "react-router-dom";
 import Moment from "react-moment";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class LogActivity extends Component {
   constructor() {
@@ -42,7 +42,6 @@ export default class LogActivity extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -60,7 +59,6 @@ export default class LogActivity extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

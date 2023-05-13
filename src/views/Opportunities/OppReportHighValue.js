@@ -1,32 +1,42 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
-import Opportunity from "../components/Opportunity";
-import api from "../lib/api";
+import Opportunity from "../../components/Opportunity";
+import Nouislider from "nouislider-react";
+import "nouislider/distribute/nouislider.css";
+import api from "../../lib/api";
 
-export default class OppReportClosedLost extends Component {
+export default class OppReportHighValue extends Component {
   constructor() {
     super();
 
     this.state = {
       opps: [],
+      value: 300,
       loading: false,
     };
   }
+
+  updateValue = (e) => {
+    let value = parseInt(e[0]);
+    this.setState({
+      value: value,
+    });
+    this.getOpps();
+  };
 
   getOpps = async () => {
     this.setState({
       loading: true,
     });
     await api
-      .get("/reports/closedlostopportunities")
+      .get(`/reports/highvalueopps?value=${this.state.value}`)
       .then((data) => {
         this.setState({
           opps: data,
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -55,7 +65,26 @@ export default class OppReportClosedLost extends Component {
               <div className="card-body">
                 <Row className="mb-2">
                   <div className="col-6 col-md-8 col-lg-10">
-                    <h4 className="card-title">Closed Lost Opportunities</h4>
+                    <h4 className="card-title">High Value Opportunities</h4>
+                  </div>
+                </Row>
+                <Row className="my-3">
+                  <div className="col-12">
+                    <h6>Threshold:</h6>
+                  </div>
+                </Row>
+                <Row>
+                  <div className="col-12">
+                    <Nouislider
+                      range={{ min: 200, max: 1000 }}
+                      start={[300]}
+                      tooltips={true}
+                      step={50}
+                      connect
+                      onChange={(e) => this.updateValue(e)}
+                      id="slider"
+                      className="mx-4"
+                    />
                   </div>
                 </Row>
                 <table className="table">

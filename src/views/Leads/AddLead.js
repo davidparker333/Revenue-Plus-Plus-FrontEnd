@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class AddLead extends Component {
   constructor() {
@@ -38,7 +38,6 @@ export default class AddLead extends Component {
         this.redirect("/leads");
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

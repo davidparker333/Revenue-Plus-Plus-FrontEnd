@@ -73,7 +73,6 @@ export default class Register extends Component {
           });
         })
         .catch((e) => {
-          console.log(e);
           this.props.addMessage(
             "Something isn't right. Please try again",
             "danger"

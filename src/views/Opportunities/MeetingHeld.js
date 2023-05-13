@@ -3,9 +3,10 @@ import { Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Redirect } from "react-router-dom";
-import api from "../lib/api";
+import Moment from "react-moment";
+import api from "../../lib/api";
 
-export default class LogActivityOpportunity extends Component {
+export default class MeetingHeld extends Component {
   constructor() {
     super();
 
@@ -41,7 +42,6 @@ export default class LogActivityOpportunity extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -49,9 +49,9 @@ export default class LogActivityOpportunity extends Component {
       });
   };
 
-  getLead = async () => {
+  getOpp = () => {
     let id = this.props.match.params.id;
-    await api
+    api
       .get(`/opportunities/${id}`)
       .then((data) => {
         this.setState({
@@ -59,7 +59,6 @@ export default class LogActivityOpportunity extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -68,7 +67,7 @@ export default class LogActivityOpportunity extends Component {
   };
 
   componentDidMount = () => {
-    this.getLead();
+    this.getOpp();
   };
 
   render() {
@@ -86,8 +85,19 @@ export default class LogActivityOpportunity extends Component {
               <div className="card-body">
                 <Row className="mb-2">
                   <div className="col-6 col-md-8 col-lg-10">
-                    <h4 className="card-title">Central Provisions</h4>
-                    <small>Last updated 4 days ago</small>
+                    <h4 className="card-title">
+                      {this.state.opportunity.business_name}
+                    </h4>
+                    {this.state.opportunity.date_created ? (
+                      <small>
+                        Created{" "}
+                        <Moment fromNow>
+                          {this.state.opportunity.date_created}
+                        </Moment>
+                      </small>
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <div className="col-6 col-md-4 col-lg-2">
                     <button
@@ -117,7 +127,9 @@ export default class LogActivityOpportunity extends Component {
                       <option value="Call">Call</option>
                       <option value="Text">Text</option>
                       <option value="Email">Email</option>
-                      <option value="Meeting">Meeting</option>
+                      <option value="Meeting" selected>
+                        Meeting
+                      </option>
                       <option value="Follow Up Meeting">
                         Follow Up Meeting
                       </option>

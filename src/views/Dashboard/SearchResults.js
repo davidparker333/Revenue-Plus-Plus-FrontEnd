@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Row } from "react-bootstrap";
-import Lead from "../components/Lead";
-import Opportunity from "../components/Opportunity";
-import api from "../lib/api";
+import Lead from "../../components/Lead";
+import Opportunity from "../../components/Opportunity";
+import api from "../../lib/api";
 
 export default class SearchResults extends Component {
   constructor() {
@@ -30,7 +30,6 @@ export default class SearchResults extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
