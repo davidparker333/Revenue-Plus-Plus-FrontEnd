@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
-import EventPage from "../components/EventPage";
+import EventPage from "../../components/EventPage";
 import { Redirect } from "react-router-dom";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class Events extends Component {
   constructor() {
@@ -26,7 +26,6 @@ export default class Events extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -51,7 +50,6 @@ export default class Events extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
-import ClosedOpportunity from "../components/ClosedOpportunity";
-import ClosedOpportunityFooter from "../components/ClosedOpportunityFooter";
-import Event from "../components/Event";
-import LeadPreview from "../components/LeadPreview";
-import Opportunity from "../components/Opportunity";
-import api from "../lib/api";
+import ClosedOpportunity from "../../components/ClosedOpportunity";
+import ClosedOpportunityFooter from "../../components/ClosedOpportunityFooter";
+import Event from "../../components/Event";
+import LeadPreview from "../../components/LeadPreview";
+import Opportunity from "../../components/Opportunity";
+import api from "../../lib/api";
 
 export default class CRMHome extends Component {
   constructor() {

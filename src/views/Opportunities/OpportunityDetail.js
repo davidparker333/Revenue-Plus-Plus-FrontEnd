@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
 import { Link, Redirect } from "react-router-dom";
-import Activity from "../components/Activity";
+import Activity from "../../components/Activity";
 import Moment from "react-moment";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class OpportunityDetail extends Component {
   constructor() {
@@ -60,7 +60,6 @@ export default class OpportunityDetail extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -105,7 +104,6 @@ export default class OpportunityDetail extends Component {
       status: "Meeting Held",
     };
     await api.post(`/edit/opportunity/${id}`, body).catch((e) => {
-      console.log(e);
       this.props.addMessage(
         "Something doesn't look right. Please try again",
         "danger"
@@ -128,7 +126,6 @@ export default class OpportunityDetail extends Component {
         this.setProgressBar(data.status);
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -146,7 +143,6 @@ export default class OpportunityDetail extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -169,7 +165,6 @@ export default class OpportunityDetail extends Component {
         );
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -189,7 +184,6 @@ export default class OpportunityDetail extends Component {
         this.props.addMessage("Opportunity saved as closed lost.", "warning");
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

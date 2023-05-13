@@ -5,34 +5,34 @@ import Message from "./components/Message";
 import Navbar from "./components/Navbar";
 import NavbarLoggedIn from "./components/NavbarLoggedIn";
 import Searchbar from "./components/Searchbar";
-import CRMHome from "./views/CRMHome";
-import Events from "./views/Events";
+import CRMHome from "./views/Dashboard/CRMHome";
+import Events from "./views/Events/Events";
 import Home from "./views/Home";
-import LeadDetail from "./views/LeadDetail";
-import Leads from "./views/Leads";
-import AddLead from "./views/AddLead";
+import LeadDetail from "./views/Leads/LeadDetail";
+import Leads from "./views/Leads/Leads";
+import AddLead from "./views/Leads/AddLead";
 import Login from "./views/Login";
-import Opportunities from "./views/Opportunities";
-import OpportunityDetail from "./views/OpportunityDetail";
-import EventDetail from "./views/EventDetail";
+import Opportunities from "./views/Opportunities/Opportunities";
+import OpportunityDetail from "./views/Opportunities/OpportunityDetail";
+import EventDetail from "./views/Events/EventDetail";
 import Register from "./views/Register";
-import Reports from "./views/Reports";
-import LogActivityLead from "./views/LogActivityLead";
-import LogActivityOpportunity from "./views/LogActivityOpportunity";
-import LeadConvert from "./views/LeadConvert";
-import MeetingHeld from "./views/MeetingHeld";
-import CreateEvent from "./views/CreateEvent";
-import CreateEventOpp from "./views/CreateEventOpp";
-import SearchResults from "./views/SearchResults";
-import LeadReportClosedLost from "./views/LeadReportClosed";
-import OppReportClosedWon from "./views/OppReportClosedWon";
+import Reports from "./views/Reports/Reports";
+import LogActivityLead from "./views/Leads/LogActivityLead";
+import LogActivityOpportunity from "./views/Opportunities/LogActivityOpportunity";
+import LeadConvert from "./views/Leads/LeadConvert";
+import MeetingHeld from "./views/Opportunities/MeetingHeld";
+import CreateEvent from "./views/Events/CreateEvent";
+import CreateEventOpp from "./views/Leads/CreateEventOpp";
+import SearchResults from "./views/Dashboard/SearchResults";
+import LeadReportClosedLost from "./views/Reports/LeadReportClosed";
+import OppReportClosedWon from "./views/Opportunities/OppReportClosedWon";
 import Features from "./views/Features";
-import OppReportClosedLost from "./views/OppReportClosedLost";
-import OppReportHighValue from "./views/OppReportHighValue";
-import OppsReportLowValue from "./views/OppsReportLowValue";
-import LeadReportConverted from "./views/LeadReportConverted";
-import LeadReportClosedHot from "./views/LeadReportClosedHot";
-import LeadReportQuantityDate from "./views/LeadReportQuantityDate";
+import OppReportClosedLost from "./views/Reports/OppReportClosedLost";
+import OppReportHighValue from "./views/Opportunities/OppReportHighValue";
+import OppsReportLowValue from "./views/Opportunities/OppsReportLowValue";
+import LeadReportConverted from "./views/Reports/LeadReportConverted";
+import LeadReportClosedHot from "./views/Reports/LeadReportClosedHot";
+import LeadReportQuantityDate from "./views/Reports/LeadReportQuantityDate";
 import Load from "./components/Load";
 import api from "./lib/api";
 
@@ -98,7 +98,6 @@ export default class App extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.addMessage(
           "Check your username / password and try again.",
           "danger"
@@ -115,7 +114,8 @@ export default class App extends Component {
         this.sessionTimeout();
       }
     }
-    setTimeout(this.checkToken, 60000);
+    // Check token expiration periodically
+    setTimeout(this.checkToken, 1800);
   };
 
   componentDidMount = () => {

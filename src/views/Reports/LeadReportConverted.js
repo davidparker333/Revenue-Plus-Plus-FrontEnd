@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
-import Lead from "../components/Lead";
+import Lead from "../../components/Lead";
 import { Redirect } from "react-router-dom";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class LeadReportConverted extends Component {
   constructor() {
@@ -27,7 +27,6 @@ export default class LeadReportConverted extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"

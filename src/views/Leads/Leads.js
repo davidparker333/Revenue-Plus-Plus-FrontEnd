@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
-import Lead from "../components/Lead";
+import Lead from "../../components/Lead";
 import { Link, Redirect } from "react-router-dom";
-import api from "../lib/api";
+import api from "../../lib/api";
 
 export default class Leads extends Component {
   constructor() {
@@ -28,7 +28,6 @@ export default class Leads extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -48,7 +47,6 @@ export default class Leads extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -73,7 +71,6 @@ export default class Leads extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
@@ -98,7 +95,6 @@ export default class Leads extends Component {
         });
       })
       .catch((e) => {
-        console.log(e);
         this.props.addMessage(
           "Something doesn't look right. Please try again",
           "danger"
